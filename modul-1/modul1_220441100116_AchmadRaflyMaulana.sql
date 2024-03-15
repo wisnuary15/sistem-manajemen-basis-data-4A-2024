@@ -1,0 +1,1 @@
+CRETE DATABASE barang;
