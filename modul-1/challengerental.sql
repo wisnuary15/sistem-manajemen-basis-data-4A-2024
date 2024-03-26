@@ -51,6 +51,7 @@ INSERT INTO gudang (id_mobil, id_penyewa, id_pembayaran) VALUES
 (2, 2, 2),
 (2, 3, 3);
 
+-- menampilkan tabel
 SELECT * FROM gudang;
 
 SELECT * FROM mobil;
@@ -59,10 +60,15 @@ SELECT * FROM pembayaran;
 
 SELECT * FROM penyewa;
 
+
+-- menamai ulang tabel
 ALTER TABLE penyewa RENAME customer;
 
+-- mengubah salah satu data tabel
 UPDATE mobil SET merk_mobil = 'pajero' WHERE id_mobil = 3;
 
+-- menghapus salah satu data pada tabel
 DELETE FROM mobil WHERE id_mobil = 3;
 
+-- menghapus database
 DROP DATABASE rentalcoba;
