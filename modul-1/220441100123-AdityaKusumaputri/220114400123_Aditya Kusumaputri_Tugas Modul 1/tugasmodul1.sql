@@ -171,8 +171,15 @@ SELECT * FROM stok_barang;
 SELECT * FROM koreksi_stok;
 SELECT * FROM keuangan;
 SELECT * FROM pembelian;
-SELECT * FROM supplier;
+SELECT * FROM pemasok;
 
 ALTER TABLE supplier RENAME TO pemasok;
+
+DESC supplier;
+
+DROP TABLE supplier;
+
+ALTER TABLE `pembelian` DROP FOREIGN KEY `pembelian_ibfk_1`;
+ALTER TABLE `pembelian` ADD  CONSTRAINT `pembelian_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `pemasok`(`id_supplier`) ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 SELECT * FROM pemasok;
