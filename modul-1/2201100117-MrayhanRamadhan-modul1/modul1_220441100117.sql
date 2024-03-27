@@ -86,7 +86,6 @@ UPDATE stok
 SET kode_barang = '98'
 WHERE nama_barang = 'Sabun';
 
-
 INSERT INTO retur VALUES
 (1,779,001,'2024-03-17','barang rusak',2),
 (2,432,002,'2024-03-17','barang rusak',1),
@@ -137,3 +136,12 @@ INSERT INTO pembelian_barang VALUES
 
 
 ALTER TABLE retur ADD jml_barang INT (3) NOT NULL;
+
+SELECT * FROM koreksi_stok;
+SELECT * FROM pelanggan;
+SELECT * FROM pembelian_barang;
+SELECT * FROM penjualan;
+SELECT * FROM retur;
+SELECT * FROM stok;
+
+DROP DATABASE swalayan;
