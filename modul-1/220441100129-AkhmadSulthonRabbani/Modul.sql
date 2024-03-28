@@ -1,11 +1,16 @@
+CREATE swalayan;
+USE swalayan;
 CREATE TABLE barang( 
     id_barang INT(20) NOT NULL PRIMARY KEY,
     nama_barang VARCHAR(50) NOT NULL,
     jmlh_stok INT(20) NOT NULL,
     hrg_jual INT (20) NOT NULL, 
     hrga_beli INT(20) NOT NULL,
-    id_supplier INT(20) NOT NULL);
+    id_supplier INT(20) NOT NULL,
+    FOREIGN KEY(id_supplier) REFERENCES supplier(id_supplier));
     
+    DROP TABLE barang;
+    DESC barang;
 
 CREATE TABLE supplier(
     id_supplier INT(20) NOT NULL PRIMARY KEY,
@@ -20,44 +25,54 @@ CREATE TABLE keuangan(
     tipe ENUM ("Penjualan", "Pembelian"),
     kategori ENUM ("Lunas", "Hutang"),
     tanggal_keuangan DATE NOT NULL,
-    harga_total INT(20) NOT NULL);
+    harga_total INT(20) NOT NULL,
+    FOREIGN KEY (id_barang) REFERENCES barang(id_barang),
+    FOREIGN KEY (id_stok) REFERENCES laporan_stok(id_stok));
+    
+    DROP TABLE keuangan;
+    DESC keuangan;
     
 CREATE TABLE laporan_stok(
     id_stok INT(20) NOT NULL PRIMARY KEY, 
     nama_barang VARCHAR(50) NOT NULL,
     stok_awal INT(20) NOT NULL,
-    sisa_stok INT(20) NOT	 NULL);
+    sisa_stok INT(20) NOT NULL);
     
 CREATE TABLE tr_pembelian(
     id_pembelian INT(20) NOT NULL PRIMARY KEY,
     id_barang INT(20) NOT NULL,
     jmlh_beli INT(20) NOT NULL,
     tgl_pembelian DATE NOT NULL,
-    kategori ENUM ("Lunas", "Hutang") NOT NULL);
+    kategori ENUM ("Lunas", "Hutang") NOT NULL,
+    FOREIGN KEY (id_barang) REFERENCES barang(id_barang));
+    
+    DROP TABLE tr_pembelian;
+    DESC tr_pembelian;
     
 CREATE TABLE tr_penjualan(
     id_penjualan INT(20) NOT NULL PRIMARY KEY,
     id_barang INT(20) NOT NULL,
     jmlh_jual INT(20) NOT NULL,
     tgl_penjualan DATE NOT NULL,
-    total INT(20) NOT NULL);
+    total INT(20) NOT NULL,
+    FOREIGN KEY (id_barang) REFERENCES barang(id_barang));
     
-CREATE TABLE tr_return(
-    id_return INT(20) NOT NULL PRIMARY KEY,
-    id_barang INT(20) NOT NULL,
-    id_suplyer INT(20) NOT NULL,
-    jmlh_return INT(20) NOT NULL,
-    tgl_return DATE NOT NULL,
-    alasan ENUM ("Kadaluarsa", "Rusak", "Dll") NOT NULL);
+    DROP TABLE tr_penjualan;
+    DESC tr_penjualan;
+    
     
 CREATE TABLE laporan_penjualan(
     id_transaksi INT(20) NOT NULL PRIMARY KEY,
     id_barang INT(20) NOT NULL,
     jmlh INT(20) NOT NULL,
-    harga INT(20) NOT NULL);
+    harga INT(20) NOT NULL,
+    FOREIGN KEY (id_barang) REFERENCES barang(id_barang));
+    
+    DROP TABLE tr_penjualan;
+    DESC laporan_penjualan;
     
 
-INSERT INTO laporan_stok values
+INSERT INTO laporan_stok VALUES
     (20001, "Gula", 30, 15),
     (20002, "Kopi", 50, 30),
     (20003, "Minyak", 30, 15),
@@ -69,7 +84,7 @@ INSERT INTO laporan_stok values
     (20009, "Sabun Mandi", 30, 15),
     (20010, "Mie Instan", 30, 15);
 
-INSERT INTO supplier values
+INSERT INTO supplier VALUES
     (10001, "Ahmad", "Bangkalan", "Lunas"),
     (10002, "Budi", "Sampang", "Hutang"),
     (10003, "Cinta", "Pamekasan", "Lunas"),
