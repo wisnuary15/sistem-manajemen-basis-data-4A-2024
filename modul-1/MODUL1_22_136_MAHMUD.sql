@@ -59,7 +59,12 @@ id_barang CHAR(5) NOT NULL,
 nama_barang VARCHAR(30)NOT NULL, 
 jumlah VARCHAR(10) NOT NULL, 
 tanggal_transaksi DATE, 
-total_harga CHAR(10) NOT NULL, PRIMARY KEY (id_transaksi));
+total_harga CHAR(10) NOT NULL, 
+PRIMARY KEY (id_transaksi),
+FOREIGN KEY (id_barang) REFERENCES barang (id_barang)
+);
+
+DROP TABLE penjualan;
 
 
 INSERT INTO barang VALUES 
