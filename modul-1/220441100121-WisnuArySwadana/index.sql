@@ -11,6 +11,7 @@ CREATE TABLE Barang (
 
 DROP TABLE Transaksi;
 
+
 CREATE TABLE Transaksi (
     ID_Transaksi INT PRIMARY KEY AUTO_INCREMENT,
     ID_Barang INT,
@@ -48,17 +49,19 @@ INSERT INTO Barang (Nama_Barang, Harga, Jumlah_Stok) VALUES
 ('Beras', 30000.00, 100),
 ('Mie Instan', 5000.00, 120);
 
-INSERT INTO Transaksi (Jenis_Transaksi, Waktu_Transaksi, Total_Harga, Keterangan) VALUES
-('POS / Penjualan : ke pelanggan', '2024-03-25 ', 25000.00, 'Transaksi penjualan barang A'),
-('POS / Penjualan : ke pelanggan', '2024-03-25 ', 18000.00, 'Transaksi penjualan barang B'),
-('Pengembalian barang / retur', '2024-03-25 ', 15000.00, 'Pengembalian barang C karena cacat'),
-('Pengembalian barang / retur', '2024-03-26 ', 12000.00, 'Pengembalian barang D karena tidak sesuai pesanan'),
-('Stok', '2024-03-26 ', NULL, 'Penyesuaian stok barang E setelah inventarisasi'),
-('Stok', '2024-03-27 ', NULL, 'Penyesuaian stok barang F setelah pengecekan kualitas'),
-('Pembelian barang dari supplier', '2024-03-27 ', 35000.00, 'Pembelian barang G dari Supplier J'),
-('Pembelian barang dari supplier', '2024-03-28 ', 28000.00, 'Pembelian barang H dari Supplier I'),
-('Koreksi stok', '2024-03-28 ', NULL, 'Koreksi stok setelah terjadi kehilangan'),
-('Koreksi stok', '2024-03-29 ', NULL, 'Koreksi stok setelah barang rusak dalam penyimpanan');
+INSERT INTO Transaksi (Jenis_Transaksi,ID_Barang, Waktu_Transaksi, Total_Harga, Keterangan) VALUES
+('POS / Penjualan : ke pelanggan','1','2024-03-25 ', 25000.00, 'Transaksi penjualan barang A'),
+('POS / Penjualan : ke pelanggan','2', '2024-03-25 ', 18000.00, 'Transaksi penjualan barang B'),
+('Pengembalian barang / retur','3', '2024-03-25 ', 15000.00, 'Pengembalian barang C karena cacat'),
+('Pengembalian barang / retur','4', '2024-03-26 ', 12000.00, 'Pengembalian barang D karena tidak sesuai pesanan'),
+('Stok','5', '2024-03-26 ', NULL, 'Penyesuaian stok barang E setelah inventarisasi'),
+('Stok', '6','2024-03-27 ', NULL, 'Penyesuaian stok barang F setelah pengecekan kualitas'),
+('Pembelian barang dari supplier','7', '2024-03-27 ', 35000.00, 'Pembelian barang G dari Supplier J'),
+('Pembelian barang dari supplier','8', '2024-03-28 ', 28000.00, 'Pembelian barang H dari Supplier I'),
+('Koreksi stok','9', '2024-03-28 ', NULL, 'Koreksi stok setelah terjadi kehilangan'),
+('Koreksi stok','10','2024-03-29 ', NULL, 'Koreksi stok setelah barang rusak dalam penyimpanan');
+
+SELECT * FROM Transaksi;
 
 INSERT INTO Supplier (Nama_Supplier, Alamat, No_Telepon) VALUES
 ('Supplier A', 'Jl. Pahlawan No. 123', '081234567890'),
