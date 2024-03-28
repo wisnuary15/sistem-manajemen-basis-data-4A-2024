@@ -152,6 +152,7 @@ SELECT * FROM laporan_stok;
 SELECT * FROM supplier;
 SELECT * FROM tr_pembelian;
 SELECT * FROM tr_penjualan;
-SELECT * FROM tr_return;`laporan_penjualan`
+
+ALTER TABLE supplier RENAME pengepul;	
 
 
