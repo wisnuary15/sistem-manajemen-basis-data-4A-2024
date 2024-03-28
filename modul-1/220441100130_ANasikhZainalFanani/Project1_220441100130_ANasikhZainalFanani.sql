@@ -65,17 +65,16 @@ INSERT INTO Barang (ID_Barang, Nama_Barang, Harga, Stok) VALUES
 (9, 'Beras', 25000, 20),
 (10, 'Minyak Goreng', 15000, 30);
 
-INSERT INTO Transaksi (ID_Detail_Transaksi, ID_Transaksi, ID_Barang, Jumlah, Harga, Total) VALUES
-(1, 1, 1, 2, 10000, 20000),
-(2, 2, 2, 1, 20000, 20000),
-(3, 3, 3, 3, 15000, 45000),
-(4, 4, 4, 5, 5000, 25000),
-(5, 5, 5, 2, 7000, 14000),
-(6, 6, 6, 4, 12000, 48000),
-(7, 7, 7, 3, 8000, 24000),
-(8, 8, 8, 2, 5000, 10000),
-(9, 9, 9, 1, 25000, 25000),
-(10, 10, 10, 2, 15000, 30000);
+INSERT INTO Transaksi ( ID_Transaksi, ID_Barang, Jumlah, Harga, Total) VALUES
+( 1, 1, 2, 10000, 20000),
+( 2, 2, 1, 20000, 20000),
+( 3, 3, 3, 15000, 45000),
+( 4, 4, 5, 5000, 25000),
+( 5, 5, 2, 7000, 14000),
+( 6, 6, 4, 12000, 48000),
+( 7, 7, 3, 8000, 24000),
+( 8, 8, 2, 5000, 10000),
+( 9, 9, 1, 25000, 25000);
 
 INSERT INTO Stok (ID_Koreksi, Tanggal, ID_Barang, Jumlah, Keterangan) VALUES
 (1, '2024-03-19', 3, 5, 'Kesalahan input stok awal'),
@@ -113,5 +112,15 @@ DELETE FROM barang WHERE ID_Barang = 10;
 UPDATE barang SET Stok=100 WHERE ID_Barang = 1;
 
 DROP DATABASE modul1;
+DROP TABLE transaksi;
 
+CREATE TABLE Transaksi (
+    ID_Transaksi INT PRIMARY KEY,
+    ID_Barang INT,
+    Jumlah INT,
+    Harga DECIMAL(10, 2),
+    Total DECIMAL(10, 2),
+    FOREIGN KEY (ID_Barang) REFERENCES Barang (ID_Barang)
+);
 
+DESC Barang;
