@@ -24,11 +24,15 @@ CREATE TABLE penjualan(
 kodePenjualan INT(3) NOT NULL,
 tglPenjualan DATE NOT NULL,
 idCustomer INT(3) NOT NULL,
-kodeBarang INT(3) NOT NULL,
+kodeBarang INT (3) NOT NULL,
 jumlahBarang INT(3) NOT NULL,
 totalHarga INT(10) NOT NULL,
-PRIMARY KEY(kodePenjualan)
+PRIMARY KEY(kodePenjualan),
+FOREIGN KEY (kodeBarang) REFERENCES barang(kodeBarang)
 );
+
+
+
 
 CREATE TABLE kembalikan(
 noKembali INT (3) NOT NULL,
@@ -166,6 +170,8 @@ SELECT * FROM koreksistok;
 SELECT * FROM customer;
 SELECT * FROM penjualan;
 SELECT * FROM kembalikan;
+
+
 
 
 ALTER TABLE kembalikan CHANGE COLUMN noKembali idKembali INT (20);
