@@ -5,16 +5,22 @@ CREATE TABLE Barang (
     ID_Barang INT PRIMARY KEY AUTO_INCREMENT,
     Nama_Barang VARCHAR(100),
     Harga DECIMAL(10, 2),
-    Jumlah_Stok INT
+    Jumlah_Stok INT,
+    
 );
+
+DROP TABLE Transaksi;
 
 CREATE TABLE Transaksi (
     ID_Transaksi INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Barang INT,
     Jenis_Transaksi VARCHAR(50),
     Waktu_Transaksi DATE,
     Total_Harga DECIMAL(10, 2),
-    Keterangan VARCHAR(100)
+    Keterangan VARCHAR(100),
+    FOREIGN KEY (ID_Barang) REFERENCES Barang(ID_Barang)
 );
+
 
 CREATE TABLE Supplier (
     ID_Supplier INT PRIMARY KEY AUTO_INCREMENT,
@@ -60,11 +66,11 @@ INSERT INTO Supplier (Nama_Supplier, Alamat, No_Telepon) VALUES
 ('Supplier C', 'Jl. Sudirman No. 789', '081234567891'),
 ('Supplier D', 'Jl. Diponegoro No. 1011', '085678901235'),
 ('Supplier E', 'Jl. Veteran No. 1213', '081234567892'),
-('Supplier F', 'Jl. imam Bonjol No. 1415', '085678901236'),
+('Supplier F', 'Jl. Asia Afrika No. 1415', '085678901236'),
 ('Supplier G', 'Jl. Merdeka No. 1617', '081234567893'),
-('Supplier H', 'Jl. Mawar No. 1819', '085678901237'),
+('Supplier H', 'Jl. Majapahit No. 1819', '085678901237'),
 ('Supplier I', 'Jl. Raya No. 2021', '081234567894'),
-('Supplier J', 'Jl. Gatot Subroto No. 2223', '085678901238');
+('Supplier J', 'Jl. Gatot Kaca No. 2223', '085678901238');
 
 INSERT INTO Laporan (Tanggal_Laporan, Jenis_Laporan, Keterangan) VALUES
 ('2024-01-01', 'Stok', 'Laporan stok awal tahun. Stok saat ini: 100'),
@@ -77,3 +83,29 @@ INSERT INTO Laporan (Tanggal_Laporan, Jenis_Laporan, Keterangan) VALUES
 ('2024-01-08', 'Penjualan', 'Penjualan harian. Pendapatan hari ini: Rp 700000'),
 ('2024-01-09', 'Stok', 'Koreksi stok. Stok setelah koreksi: 100'),
 ('2024-01-10', 'Penjualan', 'Penjualan harian. Pendapatan hari ini: Rp 750000');
+
+
+INSERT INTO Laporan (Tanggal_Laporan, Jenis_Laporan, Keterangan) VALUES
+('2024-01-01', 'Stok', 'Laporan stok awal tahun. Stok saat ini: 100');
+
+UPDATE Laporan
+SET Keterangan = 'Penjualan harian. Pendapatan hari ini: Rp 5000000'
+WHERE Tanggal_Laporan = '2024-01-01';
+
+DELETE FROM Laporan
+WHERE Tanggal_Laporan = '2024-01-01';
+
+DROP TABLE makan;
+
+ALTER TABLE Laporan ADD Test VARCHAR (100);
+
+ALTER TABLE laporan MODIFY COLUMN Test INT(100);
+
+ALTER TABLE Laporan DROP COLUMN Test;
+
+CREATE INDEX IDX_Laporan ON Laporan(Tanggal_Laporan);
+
+SELECT * FROM Laporan WHERE Tanggal_Laporan = '2024-01-01';
+
+
+
