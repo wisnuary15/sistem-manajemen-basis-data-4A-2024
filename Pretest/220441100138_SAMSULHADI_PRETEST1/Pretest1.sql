@@ -47,3 +47,4 @@ ALTER TABLE daftar_member CHANGE COLUMN email email_member VARCHAR(50);
 UPDATE skripsi_etalase SET nim = '220441100199' WHERE id_etalase = 1;
 
 DROP TABLE skripsi_etalase;
+/--pull request
