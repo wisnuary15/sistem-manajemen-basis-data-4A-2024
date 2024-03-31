@@ -1,4 +1,3 @@
-
 CREATE DATABASE toko;
 USE toko;
 
@@ -114,8 +113,6 @@ INSERT INTO pelanggan VALUES
 (99, 'Indra'),
 (100, 'Ivan');
 
-SELECT COUNT(nama) FROM pelanggan;
-SELECT * FROM pelanggan;
 
 CREATE TABLE kasir (
 id_kasir INT (10) NOT NULL,
@@ -225,11 +222,6 @@ INSERT INTO kasir VALUES
 (2098,'Soegiatto'),
 (2099,'Darwin'),
 (2100, 'Lana');
-
-SELECT * FROM kasir;
-SELECT COUNT(nama_kasir) FROM kasir;
-
-DROP TABLE suply;
 
 CREATE TABLE suply (
 	id_suply INT (10) NOT NULL,
@@ -345,11 +337,6 @@ INSERT INTO suply VALUES
 (3100,'Harmoni Sejahtera Distribusi','+629183567870','Banyuwangi');
 
 
-SELECT * FROM;
-SELECT * FROM suply;
-
-DROP TABLE barang;
-
 CREATE TABLE barang (
 id_barang INT(10) NOT NULL,
 nama_barang VARCHAR(50) NOT NULL,
@@ -359,8 +346,6 @@ id_suply INT(10) NOT NULL,
 PRIMARY KEY(id_barang),
 FOREIGN KEY (id_suply) REFERENCES suply (id_suply)
 );
-
-SELECT * FROM barang;
 
 
 INSERT INTO barang VALUES
@@ -463,10 +448,24 @@ INSERT INTO barang VALUES
 (4097,'Gula Merah',67,5000,3032),
 (4098,'Tepung Kue',12,5000,3093),
 (4099,'Pulpen highlighter',30,5000,3044),
-(4100,'Clip On',44,4000,3030)
+(4100,'Clip On',44,4000,3030);
 
 
---Transaksi
+
+
+CREATE TABLE transaksi (
+id_transaksi INT (10) NOT NULL,
+id_kasir INT (10) NOT NULL,
+id_pelanggan INT (10) NOT NULL,
+tanggal DATE,
+id_barang INT (10) NOT NULL,
+PRIMARY KEY (id_transaksi),
+FOREIGN KEY (id_kasir) REFERENCES kasir (id_kasir),
+FOREIGN KEY (id_pelanggan) REFERENCES pelanggan (id_pelanggan),
+FOREIGN KEY (id_barang) REFERENCES barang (id_barang)
+);
+
+INSERT INTO transaksi VALUES 
 (1, 2001, 80, '2023-09-18', '4087'),
 (2, 2058, 57, '2023-04-24', '4009'),
 (3, 2069, 38, '2023-12-01', '4060'),
@@ -567,3 +566,10 @@ INSERT INTO barang VALUES
 (98, 2041, 65, '2023-09-08', '4070'),
 (99, 2035, 92, '2023-04-09', '4031'),
 (100, 2089, 100, '2023-10-17', '4026');
+
+SELECT * FROM barang;
+SELECT * FROM suply;
+SELECT * FROM kasir;
+SELECT * FROM pelanggan;
+SELECT * FROM transaksi;
+
