@@ -11,18 +11,15 @@ PRIMARY KEY (id)
 
 ALTER TABLE pelanggan CHANGE COLUMN id id_pelanggan INT(3);
 
-CREATE TABLE barang(
+CREATE TABLE  barang(
 kode INT (3) NOT NULL,
 nama_barang VARCHAR (20) NOT NULL,
 harga INT (11) NOT NULL,
 stok INT (5) NOT NULL,
-no_pembelian INT (3) NOT NULL,
 PRIMARY KEY (kode)
 );
 
 ALTER TABLE barang CHANGE COLUMN kode kode_barang INT(3);
-
-ALTER TABLE barang ADD COLUMN no_pembelian INT (3) NOT NULL AFTER stok;
 
 
 CREATE TABLE penjualan(
@@ -84,6 +81,7 @@ id_supplier INT (2) NOT NULL,
 nama VARCHAR (20) NOT NULL,
 alamat VARCHAR (20) NOT NULL,
 telepon VARCHAR (12) NOT NULL,
+kode_barang INT (3) NOT NULL,
 PRIMARY KEY (id_supplier)
 );
 
@@ -96,9 +94,8 @@ ALTER TABLE penjualan ADD CONSTRAINT fk_pelanggan FOREIGN KEY (id_pelanggan) REF
 
 ALTER TABLE penjualan ADD CONSTRAINT fk_barang FOREIGN KEY (kode_barang) REFERENCES barang (kode_barang);
 
-ALTER TABLE barang ADD CONSTRAINT fk_pembelian FOREIGN KEY (no_pembelian) REFERENCES pembelian (no_pembelian);
 
-ALTER TABLE koreksi_stok ADD CONSTRAINT fk_koreksi_stok FOREIGN KEY (kode_barang) REFERENCES barang (kode_barang);
+ALTER TABLE supplier ADD CONSTRAINT fk_kode_barang FOREIGN KEY (kode_barang) REFERENCES barang (kode_barang);
 
 ALTER TABLE koreksi_stok ADD CONSTRAINT fk_koreksi_stok FOREIGN KEY (kode_barang) REFERENCES barang (kode_barang);
   
@@ -126,16 +123,16 @@ INSERT INTO pelanggan VALUES
 
 
 INSERT INTO barang VALUES 
-(001, 'Beras', 38000, 20, 001),
-(002, 'Minyak', 21000, 19, 002),
-(003, 'Gula', 19000, 18, 003),
-(004, 'Mie', 32000, 17, 004),
-(005, 'Tepung', 17000, 16, 005),
-(006, 'Pensil', 4500,15 ,006),
-(007, 'Sabun', 6000, 14, 007),
-(008, 'Sapu', 9500, 13, 008),
-(009, 'Bolu', 44000, 12, 009),
-(010, 'Petis', 4500, 11, 010);
+(001, 'Beras', 38000, 20),
+(002, 'Minyak', 21000, 19),
+(003, 'Gula', 19000, 18),
+(004, 'Mie', 32000, 17),
+(005, 'Tepung', 17000, 16),
+(006, 'Pensil', 4500,15),
+(007, 'Sabun', 6000, 14),
+(008, 'Sapu', 9500, 13),
+(009, 'Bolu', 44000, 12),
+(010, 'Petis', 4500, 11);
 
 
 
@@ -193,24 +190,29 @@ INSERT INTO pembelian VALUES
 
 
 INSERT INTO supplier VALUES 
-(001, 'PT Mega Distribusi', 'Kediri', '085683942948', 'Beras', 36000),
-(002, 'CV Jaya Makmur Grosir', 'Nganjuk', '085683849292', 'Minyak', 19000),
-(003, 'UD Berkah Sejahtera', 'Tulungagung', '085249582049', 'Gula', 17000),
-(004, 'PT Sentra Distribusi Swalayan', 'Blitar', '08568303829', 'Mie', 30000),
-(005, 'CV Mutiara Swalayan', 'Trenggalek', '085184892948', 'Tepung', 15000),
-(006, 'PT Sejahtera Utama Grosir', 'Jombang', '085628948294', 'Pensil', 2500),
-(007, 'PT Bintang Swalayan', 'Mojokerto', '085658382022', 'Sabun', 4000),
-(008, 'PT Prima Makmur Distribusi', 'Sidoarjo', '08568028402', 'Sapu', 7500),
-(009, 'CV Berkah Maju Swalayan', 'Surabaya', '08563271849', 'Bolu', 42000),
-(010, 'PT Swakarya Distribusi Swalayan', 'Bangkalan', '0853284929', 'Petis', 2500);
+(001, 'PT Mega Distribusi', 'Kediri', '085683942948', 'Beras', 36000,1),
+(002, 'CV Jaya Makmur Grosir', 'Nganjuk', '085683849292', 'Minyak', 19000,2),
+(003, 'UD Berkah Sejahtera', 'Tulungagung', '085249582049', 'Gula', 17000,3),
+(004, 'PT Sentra Distribusi Swalayan', 'Blitar', '08568303829', 'Mie', 30000,4),
+(005, 'CV Mutiara Swalayan', 'Trenggalek', '085184892948', 'Tepung', 15000,5),
+(006, 'PT Sejahtera Utama Grosir', 'Jombang', '085628948294', 'Pensil', 2500,6),
+(007, 'PT Bintang Swalayan', 'Mojokerto', '085658382022', 'Sabun', 4000,7),
+(008, 'PT Prima Makmur Distribusi', 'Sidoarjo', '08568028402', 'Sapu', 7500,8),
+(009, 'CV Berkah Maju Swalayan', 'Surabaya', '08563271849', 'Bolu', 42000,9),
+(010, 'PT Swakarya Distribusi Swalayan', 'Bangkalan', '0853284929', 'Petis', 2500,10);
 
 
 
-SELECT * FROM barang;
+
+SELECT * FROM toko_swalayan.barang;
 SELECT * FROM koreksi_stok;
 SELECT * FROM pelanggan;
 SELECT * FROM pembelian;
 SELECT * FROM penjualan;
 SELECT * FROM retur;
 SELECT * FROM supplier;
+
+DROP DATABASE toko_swalayan;
+
+
 
