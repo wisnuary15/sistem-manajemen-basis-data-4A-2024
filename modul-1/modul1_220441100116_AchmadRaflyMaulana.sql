@@ -1,3 +1,4 @@
+-- Database MODUL1
 CREATE DATABASE modul1;
 
 USE modul1;
@@ -82,3 +83,88 @@ INSERT INTO `transaksi` (`Id_Transaksi`, `Tanggal_Transaksi`, `Jenis_Transaksi`)
 (8, '2023-03-08', 'Pembelian Barang dari Supplier'),
 (9, '2023-03-09', 'Stok'),
 (10, '2023-03-10', 'Pengembalian Barang ');
+
+
+-- Database BENGKEL
+CREATE DATABASE bengkel;
+
+USE bengkel;
+
+CREATE TABLE kendaraan (
+id_kendaraan INT(3) NOT NULL AUTO_INCREMENT, 
+jenis_kendaraan VARCHAR(30) NOT NULL,
+PRIMARY KEY(id_kendaraan)
+)
+
+INSERT INTO kendaraan (jenis_kendaraan) VALUES
+('mobil'),
+('sepeda engkol'),
+('becak');
+
+SELECT *  FROM kendaraan;
+
+CREATE TABLE pelanggan (
+id_pelanggan INT(3) NOT NULL AUTO_INCREMENT,
+nama_pelanggan VARCHAR(30) NOT NULL,
+id_kendaraan INT(3) NOT NULL,
+FOREIGN KEY (id_kendaraan) REFERENCES kendaraan(id_kendaraan),
+PRIMARY KEY(id_pelanggan)
+)
+
+INSERT INTO pelanggan (nama_pelanggan, id_kendaraan) VALUES 
+('rafly', 1),
+('sigma', 2),
+('rehan', 3);
+
+SELECT * FROM pelanggan;
+
+CREATE TABLE perbaikan (
+id_perbaikan INT(5) NOT NULL AUTO_INCREMENT,
+jenis VARCHAR(30) NOT NULL,
+PRIMARY KEY(id_perbaikan)
+)
+
+INSERT INTO perbaikan (jenis) VALUES 
+('oli'),
+('kampas rem'),
+('ban');
+
+SELECT * FROM perbaikan;
+
+CREATE TABLE montir (
+id_montir INT(5) NOT NULL AUTO_INCREMENT,
+nama_montir VARCHAR(30) NOT NULL,
+id_perbaikan INT(5) NOT NULL,
+FOREIGN KEY (id_perbaikan) REFERENCES perbaikan(id_perbaikan),
+PRIMARY KEY(id_montir)
+)
+
+INSERT INTO montir (nama_montir, id_perbaikan) VALUES
+('dani', 1),
+('akmal', 2),
+('birrur', 3);
+
+SELECT * FROM montir;
+
+CREATE TABLE transaksi (
+id_transaksi INT(5) NOT NULL AUTO_INCREMENT,
+id_pelanggan INT(3) NOT NULL,
+id_kendaraan INT(3) NOT NULL,
+id_montir INT(5) NOT NULL,
+id_perbaikan INT(5) NOT NULL,
+FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan),
+FOREIGN KEY (id_kendaraan) REFERENCES kendaraan(id_kendaraan),
+FOREIGN KEY (id_montir) REFERENCES montir(id_montir),
+FOREIGN KEY (id_perbaikan) REFERENCES perbaikan(id_perbaikan),
+PRIMARY KEY(id_transaksi)
+)
+
+INSERT INTO transaksi (id_pelanggan, id_kendaraan, id_montir, id_perbaikan) VALUES 
+(10, 1, 1, 1), 
+(11, 2, 2, 2), 
+(12, 3, 3, 3);
+
+
+SELECT * FROM transaksi;
+
+DROP TABLE transaksi;
