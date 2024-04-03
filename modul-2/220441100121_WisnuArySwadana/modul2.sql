@@ -113,13 +113,16 @@ HAVING COUNT(p.Kode_Peminjaman) > 5;
 
 SELECT * FROM Anggota_Lebih_5_Buku;
 
+
+
+DROP VIEW Transaksi_Petugas;
+
 CREATE VIEW Transaksi_Petugas AS
 SELECT 
     pt.IdPetugas,
     pt.Nama AS Nama_Petugas,
     COUNT(DISTINCT p.Kode_Peminjaman) AS Jumlah_Peminjaman,
-    COUNT(DISTINCT pg.Kode_Kembali) AS Jumlah_Pengembalian,
-    COUNT(DISTINCT p.Kode_Buku) AS Jumlah_Buku_Terpinjam
+    COUNT(DISTINCT pg.Kode_Kembali) AS Jumlah_Pengembalian
 FROM 
     petugas pt
 LEFT JOIN 
@@ -127,9 +130,12 @@ LEFT JOIN
 LEFT JOIN 
     pengembalian pg ON pt.IdPetugas = pg.IdPetugas
 GROUP BY 
-    pt.IdPetugas;
+    pt.IdPetugas, pt.Nama;
+
 
 SELECT * FROM Transaksi_Petugas;
+
+
 
 CREATE VIEW Petugas_Teratas AS
 SELECT 
@@ -151,6 +157,8 @@ ORDER BY
 LIMIT 1;
 
 SELECT * FROM Petugas_Teratas;
+
+
 
 CREATE VIEW Buku_Terpinjam_Terbanyak AS
 SELECT 
