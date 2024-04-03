@@ -26,3 +26,5 @@ ON a.kode_buku = b.kode_buku
 GROUP BY buku_terbanyak_dipinjam
 ORDER BY jumlah DESC
 LIMIT 1;
+
+
