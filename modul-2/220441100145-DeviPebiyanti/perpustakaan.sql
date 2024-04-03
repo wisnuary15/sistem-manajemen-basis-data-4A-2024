@@ -163,6 +163,7 @@ SELECT * FROM transaksi_pengembalian;
 DROP VIEW transaksi_pengembalian;
 
 
+
 //NOMOR 3//
 CREATE VIEW transaksi_petugas AS 
 SELECT
@@ -177,6 +178,7 @@ SELECT * FROM transaksi_petugas;
 DROP VIEW transaksi_petugas;
 
 
+
 //NOMOR 4//
 CREATE VIEW buku_terbanyak AS 
 SELECT
@@ -188,7 +190,10 @@ FROM buku INNER JOIN
 GROUP BY
     kode_buku
 ORDER BY
-    banyak DESC;
+    banyak DESC
+LIMIT 1;
+
+
 
 SELECT * FROM buku_terbanyak;
 DROP VIEW buku_terbanyak;
