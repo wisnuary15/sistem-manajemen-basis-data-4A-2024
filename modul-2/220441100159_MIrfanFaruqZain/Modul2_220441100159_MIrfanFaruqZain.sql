@@ -80,10 +80,25 @@ SELECT * FROM buku;
 
 INSERT INTO peminjaman VALUES 
 ('P1', 'B1', 'A1', '2023-04-06', '2023-04-09', 'C1'),
-('P2', 'B2', 'A2', '2023-04-07', '2022-04-30', 'C2'),
-('P3', 'B3', 'A3', '2023-04-08', '2022-04-13', 'C3'),
-('P4', 'B4', 'A4', '2023-04-09', '2022-04-13', 'C4'),
-('P5', 'B5', 'A5', '2023-04-22', '2022-04-30', 'C5');
+('P2', 'B1', 'A2', '2023-04-07', '2022-04-30', 'C2'),
+('P3', 'B1', 'A3', '2023-04-08', '2022-04-13', 'C3'),
+('P4', 'B1', 'A4', '2023-04-09', '2022-04-13', 'C4'),
+('P5', 'B1', 'A5', '2023-04-22', '2022-04-30', 'C5');
+
+INSERT INTO peminjaman VALUES 
+('P6', 'B1', 'A1', '2023-04-06', '2023-04-09', 'C1'),
+('P7', 'B1', 'A2', '2023-04-07', '2022-04-30', 'C2'),
+('P8', 'B1', 'A3', '2023-04-08', '2022-04-13', 'C3'),
+('P9', 'B1', 'A4', '2023-04-09', '2022-04-13', 'C4'),
+('P10', 'B1', 'A5', '2023-04-22', '2022-04-30', 'C5');
+
+INSERT INTO peminjaman VALUES 
+('P11', 'B1', 'A5', '2023-04-09', '2022-04-13', 'C4'),
+('P12', 'B1', 'A5', '2023-04-22', '2022-04-30', 'C5');
+
+INSERT INTO peminjaman VALUES 
+('P13', 'B1', 'A5', '2023-04-09', '2022-04-13', 'C5'),
+('P14', 'B1', 'A5', '2023-04-22', '2022-04-30', 'C5');
 
 SELECT * FROM peminjaman;
 
@@ -93,6 +108,15 @@ INSERT INTO pengembalian VALUES
 ('Z03', 'B3', 'C3', 'A3', '2023-04-08', '2022-04-13', '1500'),
 ('Z04', 'B4', 'C4', 'A4', '2023-04-09', '2022-04-13', '2500'),
 ('Z05', 'B5', 'C5', 'A5', '2023-04-22', '2022-04-30', '2000');
+
+INSERT INTO pengembalian VALUES 
+('Z06', 'B1', 'C1', 'A5', '2023-04-06', '2023-04-09', '2000'),
+('Z07', 'B2', 'C2', 'A5', '2023-04-07', '2022-04-30', '3000');
+
+INSERT INTO pengembalian VALUES 
+('Z08', 'B1', 'C1', 'A5', '2023-04-06', '2023-04-09', '2000'),
+('Z09', 'B2', 'C2', 'A5', '2023-04-07', '2022-04-30', '3000');
+
 
 SELECT * FROM pengembalian;
 
@@ -117,14 +141,9 @@ SELECT * FROM petugas_peminjam_buku GROUP BY id_petugas HAVING COUNT(*);
 SELECT namee.id_petugas, namee.nama, MAX(jumlah_transaksi) FROM petugas_peminjam_buku namee, peminjaman ptgs
 WHERE namee.id_petugas = ptgs.id_petugas AND jumlah_transaksi >= ALL
 (SELECT jumlah_transaksi FROM petugas_peminjam_buku)
-GROUP BY namee.id_petugas;
+GROUP BY namee.id_petugas DESC LIMIT 1;
 
 4
-CREATE VIEW buku_terbanyak AS 
-SELECT v.kode_buku, b.judul_buku, MAX(jumlah_dipinjam) FROM buku_terbanyak v, buku b
-WHERE v.kode_buku = b.kode_buku AND jumlah_dipinjam >= ALL (SELECT jumlah_dipinjam FROM buku_terbanyak)
-GROUP BY v.kode_buku, b.judul_buku, b.pengarang_buku;
-
 CREATE VIEW buku_terbanyak AS
 	SELECT buku.judul_buku, COUNT(peminjaman.kode_buku) AS JumlahPeminjaman
 	FROM buku JOIN peminjaman ON buku.kode_buku = peminjaman.kode_buku
