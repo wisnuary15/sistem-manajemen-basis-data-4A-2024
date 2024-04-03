@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS pengembalian (
     PRIMARY KEY (Kode_Kembali)
 );
 
-INSERT INTO anggota (IdAnggota, Nama_Anggota, Alamat_Anggota, Tanggal_Lahir_Anggota, No_Telp)
-VALUES ('A001', 'Anggota Satu', 'Alamat Anggota Satu', '1990-01-01', 123456789),
-       ('A002', 'Anggota Dua', 'Alamat Anggota Dua', '1995-05-05', 987654321);
+INSERT INTO petugas (IdPetugas, Username, Password, Nama)
+VALUES ('PT001', 'petugas1', 'password1', 'Petugas Satu'),
+       ('PT002', 'petugas2', 'password2', 'Petugas Dua');
 INSERT INTO anggota (IdAnggota, Nama_Anggota, Alamat_Anggota, Tanggal_Lahir_Anggota, No_Telp)
 VALUES ('A001', 'Anggota Satu', 'Alamat Anggota Satu', '1990-01-01', 123456789),
        ('A002', 'Anggota Dua', 'Alamat Anggota Dua', '1995-05-05', 987654321);
