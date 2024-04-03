@@ -105,6 +105,11 @@ INSERT INTO peminjaman VALUES
 ('13', '103', '002', '2022-12-27', '2024-01-03', '201'),
 ('14', '103', '002', '2022-01-03', '2024-01-10', '203'),
 ('15', '103', '004', '2022-01-10', '2024-01-17', '201');
+INSERT INTO peminjaman VALUES
+('16', '100', '001', '2021-10-12', '2023-10-19', '200'),
+('17', '101', '001', '2021-10-12', '2023-10-19', '201'),
+('18', '103', '001', '2021-09-11', '2023-09-18', '206'),
+('19', '102', '003', '2021-08-17', '2023-08-23', '210');
 
 INSERT INTO pengembalian VALUES
 ('01', '100', '200', '001', '2024-10-12', '2025-10-19', '0'),
@@ -134,7 +139,7 @@ HAVING Jml_Buku_Dipinjam > 5);
 SELECT * FROM peminjamanLebihDari5;
 
 CREATE OR REPLACE VIEW Transaksi_Petugas 
-AS SELECT IdPetugas, COUNT(IdPetugas) 
+AS SELECT IdPetugas,Nama, COUNT(IdPetugas) 
 AS Jumlah_Buku 
 FROM petugas 
 NATURAL JOIN peminjaman 
@@ -153,6 +158,8 @@ CREATE VIEW Transaksi_Petugas_Paling_Banyak
 AS SELECT Nama, MAX(Jumlah_Buku) 
 FROM petugas 
 NATURAL JOIN Transaksi_Petugas;
+
+DROP VIEW Transaksi_Petugas_Paling_Banyak;
 
 SELECT * FROM Transaksi_Petugas_Paling_Banyak;
 
