@@ -167,4 +167,13 @@ INSERT INTO transaksi (id_pelanggan, id_kendaraan, id_montir, id_perbaikan) VALU
 
 SELECT * FROM transaksi;
 
+ALTER TABLE transaksi RENAME riwayat_transaksi;
+
+ALTER TABLE montir MODIFY COLUMN nama_montir VARCHAR(50) NOT NULL;
+
+UPDATE kendaraan SET jenis_kendaraan = 'motor' WHERE id_kendaraan = 1;
+
 DROP TABLE transaksi;
+
+DROP DATABASE bengkel;
+
