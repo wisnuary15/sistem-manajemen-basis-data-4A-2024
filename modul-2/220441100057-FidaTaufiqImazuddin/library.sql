@@ -177,19 +177,25 @@ LEFT JOIN peminjaman pm ON pt.idPetugas = pm.idPetugas
 LEFT JOIN pengembalian pg ON pt.idPetugas = pg.idPetugas
 GROUP BY pt.idPetugas, pt.nama
 ORDER BY (COUNT(pm.Kode_Peminjaman) + COUNT(pg.kode_kembalian)) DESC
-LIMIT 1;
+LIMIT 1; 
 
 SELECT * FROM pelayananterbanyak;
 
 -- 4. Definisikan view buku yang terpinjam paling banyak
 
-CREATE VIEW bukupeminjamterbanyak AS
+CREATE VIEW terbanyak AS
 SELECT b.kode_buku, b.judul_buku, b.pengarang_buku, b.penerbit_buku,
     COUNT(p.kode_peminjaman) AS jumlah_peminjaman
-FROM buku b
-LEFT JOIN peminjaman p ON b.kode_buku = p.kode_buku
+FROM buku b LEFT JOIN peminjaman p ON b.kode_buku = p.kode_buku
 GROUP BY b.kode_buku, b.judul_buku, b.pengarang_buku, b.penerbit_buku
-ORDER BY COUNT(p.kode_peminjaman) DESC
-LIMIT 1;
+HAVING COUNT(p.kode_peminjaman) = (
+    SELECT MAX(jumlah_peminjaman)
+    FROM (
+        SELECT COUNT(kode_peminjaman) AS jumlah_peminjaman
+        FROM peminjaman
+        GROUP BY kode_buku
+    ) AS jumlah_pinjam_per_buku
+);
 
-SELECT * FROM bukupeminjamterbanyak;
+
+SELECT * FROM terbanyak;
