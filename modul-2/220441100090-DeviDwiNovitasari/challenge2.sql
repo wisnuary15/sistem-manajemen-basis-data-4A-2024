@@ -25,7 +25,7 @@ INSERT INTO harga_barang (id_barang, harga) VALUES
 (4, '4.000'),
 (5, '7.000');
 SELECT * FROM harga_barang;
-
+DROP VIEW hasil;
 CREATE VIEW hasil AS
 SELECT a.id_barang AS `NO`,
 nama_barang AS `BARANG`,
