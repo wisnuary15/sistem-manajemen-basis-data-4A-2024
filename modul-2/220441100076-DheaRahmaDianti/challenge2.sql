@@ -30,7 +30,7 @@ INSERT INTO coment(comentar, userid) VALUES
 ('Harus Bisa', 2),
 ('Ayoo semangat', 3);
 
-SELECT * FROM comet;
+SELECT * FROM coment;
 
 CREATE VIEW vw_coment AS SELECT a.comentar, b.Username 
 FROM coment a JOIN USER b ON a.userid = b.id 
