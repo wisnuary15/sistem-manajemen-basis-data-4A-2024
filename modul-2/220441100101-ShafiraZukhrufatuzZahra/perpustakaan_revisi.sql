@@ -150,31 +150,23 @@ SELECT p.Kode_Peminjaman, p.IdAnggota, p.Kode_Buku, p.Tanggal_Pinjam, p.Tanggal_
 FROM peminjaman p JOIN petugas c ON p.IdPetugas = c.IdPetugas;
 SELECT * FROM vw_petugas_Pinjam;
 
-CREATE VIEW vw_satu AS
-SELECT a.Nama_Anggota, a.Angkatan_Anggota, a.Tempat_Lahir_Anggota, a.No_Telp, a.Jenis_Kelamin, a.Status_Pinjam, p.Kode_Peminjaman, p.Kode_Buku, p.IdPetugas, p.Tanggal_Pinjam, p.Tanggal_Kembali
-FROM anggota a JOIN peminjaman p ON a.IdAnggota = p.IdAnggota;
-SELECT * FROM vw_satu;
+--1. definisikan VIEW untuk mendapatkan DATA anggota yang hanya meminjam buku lebih dari 5 buku!--
+CREATE VIEW vw_peminjamlebihdari5buku AS
+SELECT a.Nama_Anggota, COUNT(*) AS Jumlah_Peminjaman FROM peminjaman p JOIN anggota a ON p.IdAnggota=a.IdAnggota GROUP BY a.Nama_Anggota HAVING COUNT(*) > 5;
+SELECT * FROM vw_peminjamlebihdari5buku;
 
-CREATE VIEW vw_nomorSatu AS
-SELECT a.Nama_Anggota, a.Angkatan_Anggota, a.Tempat_Lahir_Anggota, a.Tanggal_Lahir_Anggota, a.No_Telp, a.Jenis_Kelamin, a.Status_Pinjam
-FROM anggota a
-WHERE (SELECT COUNT(*) FROM peminjaman p WHERE p.IdAnggota = a.IdAnggota) > 5;
-SELECT * FROM vw_nomorSatu;
+--2. definisikan VIEW petugas yang melakukan transaksi (peminjaman/pengembalian) beserta jumlah buku yang terpinjam ketika petugas tersebut bertugas!--
+CREATE VIEW vw_transaksi AS
+SELECT pt.Username, pt.Nama, COUNT(pj.Kode_Peminjaman) AS Jumlah_Peminjaman, COUNT(*) AS Jumlah_Transaksi FROM petugas pt JOIN peminjaman pj ON pt.IdPetugas = pj.IdPetugas
+JOIN pengembalian pb ON pt.IdPetugas = pb.IdPetugas GROUP BY pt.Username, pt.Nama;
+SELECT * FROM vw_transaksi;
 
-CREATE VIEW vw_nomorDua AS
-SELECT p.IdPetugas, pt.Username, pt.Nama, COUNT(*) AS Jumlah_Transaksi
-FROM ( SELECT IdPetugas FROM peminjaman UNION ALL SELECT IdPetugas FROM pengembalian) AS p JOIN petugas pt ON p.IdPetugas = pt.IdPetugas
-GROUP BY p.IdPetugas, pt.Username, pt.Nama;
-SELECT * FROM vw_nomorDua;
+--3. Definisikan VIEW dari nomor 2 hanya petugas yang melayani terbanyak--
+CREATE VIEW vw_transaksiterbnyak AS 
+SELECT pt.Username, pt.Nama, COUNT(*) AS Transaksi FROM petugas pt JOIN peminjaman pj ON pt.IdPetugas = pj.IdPetugas JOIN pengembalian pb ON pt.IdPetugas = pb.IdPetugas GROUP BY pt.Username, pt.Nama ORDER BY Transaksi DESC LIMIT 1;
+SELECT * FROM vw_transaksiterbnyak;
 
-CREATE VIEW vw_nomorTiga AS
-SELECT p.IdPetugas, pt.Username, pt.Nama, COUNT(*) AS Jumlah_Transaksi
-FROM ( SELECT IdPetugas FROM peminjaman UNION ALL SELECT IdPetugas FROM pengembalian) AS p
-JOIN petugas pt ON p.IdPetugas = pt.IdPetugas GROUP BY p.IdPetugas, pt.Username, pt.Nama ORDER BY Jumlah_Transaksi DESC LIMIT 1;
-SELECT * FROM vw_nomorTiga;
-
-CREATE VIEW vw_nomorEmpat AS
-SELECT b.Kode_Buku, b.Judul_Buku, b.Pengarang_Buku, b.Penerbit_Buku, COUNT(*) AS Jumlah_Peminjaman
-FROM buku b JOIN peminjaman p ON b.Kode_Buku = p.Kode_Buku GROUP BY b.Kode_Buku, b.Judul_Buku, b.Pengarang_Buku, b.Penerbit_Buku
-ORDER BY Jumlah_Peminjaman DESC LIMIT 1;
-SELECT * FROM vw_nomorEmpat;
+--4. Definisikan VIEW buku yang terpinjam paling banyak--
+CREATE VIEW vw_bukuterpinjam AS
+SELECT b.Judul_Buku, COUNT(*) AS Terpinjam FROM Buku b JOIN peminjaman p ON b.Kode_Buku=p.Kode_Buku GROUP BY b.Judul_Buku ORDER BY Terpinjam DESC LIMIT 1;
+SELECT * FROM vw_bukuterpinjam;
