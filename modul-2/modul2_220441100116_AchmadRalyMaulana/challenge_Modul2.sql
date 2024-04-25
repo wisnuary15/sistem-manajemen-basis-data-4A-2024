@@ -79,3 +79,5 @@ FROM tasks_assignments a JOIN employees b ON a.id_employee = b.id_employee
 JOIN department c ON b.department_id = c.department_id
 WHERE a.hours_worked > 100
 GROUP BY c.department_nama;
+
+SELECT * FROM vw_tampil;
