@@ -73,4 +73,4 @@ INNER JOIN course_teachers b ON a.id_teachers = b.id_teachers
 GROUP BY name_teachers
 HAVING COUNT(jumlah_ngajar) > 1;
 
-SELECT * FROM ngajar;
+select * from ngajar;
