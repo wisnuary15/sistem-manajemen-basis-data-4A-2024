@@ -59,13 +59,16 @@ ALTER TABLE employees ADD CONSTRAINT fk_id_departement FOREIGN KEY (id_departeme
 
 DELIMITER //
 CREATE PROCEDURE new_salary(
-	INOUT employe_id INT
+	IN employe_id INT,
+	OUT salaryNew INT
 	
 )
 BEGIN 
 	
+	
 	SELECT e.nama, SUM(s.amount) AS totalGaji  FROM salaries s 
-	JOIN employees e ON  s.id_employe = e.id_employe WHERE e.id_employe = employe_id;
+	JOIN employees e ON  s.id_employe = e.id_employe
+	WHERE e.id_employe = employe_id;
 	
 END //
 DELIMITER ;
@@ -73,8 +76,9 @@ DELIMITER ;
 
 
 
-SET @id_employee = 2;
-CALL new_salary (@id_employee);
+
+CALL new_salary (2, @salaryNew);
+
 SELECT * FROM employees; 
 
 
