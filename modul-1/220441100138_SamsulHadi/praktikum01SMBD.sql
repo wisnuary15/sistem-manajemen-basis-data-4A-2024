@@ -162,6 +162,27 @@ RENAME TABLE tbl_barang TO barang
 
 DROP DATABASE db-swalayan
 
+
+
+
+--Relasi dari detail_tr_penjualan ke tr_penjualan
+ALTER TABLE detail_tr_penjualan ADD FOREIGN KEY (id_penjualan) REFERENCES tr_penjualan(id_penjualan) ON DELETE CASCADE ON UPDATE CASCADE;
+--Relasi dari detail_tr_penjualan ke barang
+ALTER TABLE detail_tr_penjualan ADD FOREIGN KEY (id_barang) REFERENCES barang(id_brg) ON DELETE CASCADE ON UPDATE CASCADE;
+--Relasi dari detail_tr_pembelian ke tr_pembelian
+ALTER TABLE detail_tr_pembelian ADD FOREIGN KEY (id_pembelian) REFERENCES tr_pembelian(id_pembelian) ON DELETE CASCADE ON UPDATE CASCADE;
+--Relasi dari detail_tr_pembelian ke barang
+ALTER TABLE detail_tr_pembelian ADD FOREIGN KEY (id_barang) REFERENCES barang(id_brg) ON DELETE CASCADE ON UPDATE CASCADE;
+--Relasi dari return barang ke detail_tr_penjualan
+ALTER TABLE return_barang ADD FOREIGN KEY (id_detail_penjualan) REFERENCES detail_tr_penjualan(id_detail_penjualan) ON DELETE CASCADE ON UPDATE CASCADE;
+--Relasi dari tr_pembelian ke supplier
+ALTER TABLE tr_pembelian ADD FOREIGN KEY (id_supp) REFERENCES supplier(id_supp) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+
+
+
 -- Total Penjualan per-ID(Nota) penjualan
 SELECT tr_penjualan.id_penjualan, tr_penjualan.tanggal_jual, SUM(detail_tr_penjualan.qty * barang.hrg_jual) AS total_penjualan
 FROM tr_penjualan

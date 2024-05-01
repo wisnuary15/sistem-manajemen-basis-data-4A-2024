@@ -19,21 +19,21 @@ INSERT INTO USER (Username) VALUES
 
 SELECT * FROM USER;
 
-CREATE TABLE IF NOT EXISTS comet(
+CREATE TABLE IF NOT EXISTS coment(
 id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 comentar VARCHAR(50) NOT NULL,
 userid INT(10) NOT NULL,
 FOREIGN KEY (userid) REFERENCES USER(id));
 
-INSERT INTO comet(comentar, userid) VALUES
+INSERT INTO coment(comentar, userid) VALUES
 ('Saya bisa', 1),
 ('Harus Bisa', 2),
 ('Ayoo semangat', 3);
 
-SELECT * FROM comet;
+SELECT * FROM coment;
 
 CREATE VIEW vw_coment AS SELECT a.comentar, b.Username 
-FROM comet a JOIN USER b ON a.userid = b.id 
+FROM coment a JOIN USER b ON a.userid = b.id 
 GROUP BY a.comentar, b.Username;
 
 SELECT * FROM vw_coment;
