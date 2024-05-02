@@ -163,7 +163,6 @@ DROP VIEW Transaksi_Petugas_Paling_Banyak;
 
 SELECT * FROM Transaksi_Petugas_Paling_Banyak;
 
-
 CREATE OR REPLACE VIEW Daftar_Buku_Terpinjam 
 AS SELECT Judul_Buku, COUNT(Judul_Buku) 
 AS Jumlah_Buku 
