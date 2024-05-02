@@ -10,6 +10,8 @@ stok_barang INT(5) NOT NULL,
 id_supplier CHAR(5) NOT NULL, PRIMARY KEY (id_barang));
 
 
+DROP TABLE barang;
+
 CREATE TABLE data_supplier (
 id_supplier INT(5) NOT NULL, 
 nama_supplier VARCHAR (35) NOT NULL, 
@@ -25,49 +27,48 @@ CREATE TABLE status_penjualan (
 id_transaksi INT(5) NOT NULL, 
 status_transaksi VARCHAR(35) NOT NULL);
 
-CREATE TABLE laporan (
-id_laporan INT(5) NOT NULL,  
-id_barang INT(5) NOT NULL, 
-id_transaksi INT(5) NOT NULL, 
-total_transaksi VARCHAR (20) NULL,
-PRIMARY KEY (id_laporan));
+create table laporan (
+id_laporan int(5) not null,  
+id_barang int(5) not null, 
+id_transaksi int(5) not null, 
+total_transaksi varchar (20) null,
+primary key (id_laporan));
 
-CREATE TABLE koreksi_stok (
-id_barang INT(5) NOT NULL, 
-nama_barang VARCHAR(35) NOT NULL, 
-total_stok INT(10) NOT NULL, PRIMARY KEY (total_stok));
+create table koreksi_stok (
+id_barang int(5) not null, 
+nama_barang varchar(35) not null, 
+total_stok int(10) not null, primary key (total_stok));
 
-CREATE TABLE retur_penjualan (
-id_penjualan INT (5),
-tgl_jual DATE,
-nama_barang VARCHAR (30),
-jml_retur VARCHAR (20),
-alasan_retur VARCHAR (50));
+create table retur_penjualan (
+id_penjualan int (5),
+tgl_jual date,
+nama_barang varchar (30),
+jml_retur varchar (20),
+alasan_retur varchar (50));
 
-CREATE TABLE pembelian (
-id_pembelian INT(10),
-tgl_beli DATE,
-id_supplier INT(5),
-id_barang CHAR(5),
-jml_beli INT(10),
-harga_beli CHAR (20), PRIMARY KEY (id_pembelian));
+create table pembelian (
+id_pembelian int(10),
+tgl_beli date,
+id_supplier int(5),
+id_barang char(5),
+jml_beli int(10),
+harga_beli char (20), primary key (id_pembelian));
 
-CREATE TABLE penjualan(
-id_penjualan INT (5) NOT NULL,
-id_transaksi INT(5) NOT NULL, 
-id_barang CHAR(5) NOT NULL, 
-nama_barang VARCHAR(30)NOT NULL, 
-jumlah VARCHAR(10) NOT NULL, 
-tanggal_transaksi DATE, 
-total_harga CHAR(10) NOT NULL, 
-PRIMARY KEY (id_transaksi),
-FOREIGN KEY (id_barang) REFERENCES barang (id_barang)
+create table penjualan(
+id_penjualan int (5) not null,
+id_transaksi int(5) not null, 
+id_barang char(5) not null, 
+nama_barang varchar(30)not null, 
+jumlah varchar(10) not null, 
+tanggal_transaksi date, 
+total_harga char(10) not null, 
+primary key (id_transaksi),
+FOREIGN key (id_barang) REFERENCES barang (id_barang)
 );
 
-DROP TABLE penjualan;
 
 
-INSERT INTO barang VALUES 
+insert into barang values 
 ('001', 'pepsodent', '7.000', 30, '101'),
 ('002', 'molto', '20.000', 20, '102'),
 ('003', 'rinso', '25.000', 50, '103'),
@@ -79,9 +80,9 @@ INSERT INTO barang VALUES
 ('009', 'roma kelapa', '7.000', 30, '109'),
 ('010', 'sip', '7.000', 30, '110');
 
-SELECT * FROM barang;
+select * from barang;
 
-INSERT INTO data_supplier VALUES
+insert into data_supplier values
 (501, 'Andreansyah', 0838309971, 'lamongan','2024-04-04','150.000', 20, '100.000','2024-05-05'),
 (502, 'Putry Dwi Pebriani', 0838309972, 'Bojonegoro','2024-04-04','300.000',20, '200.000','2024-06-05'),
 (503, 'rahmattullah', 0838309973, 'malang','2024-05-04','150.000',20, '100.000','2024-07-05'),
@@ -93,9 +94,9 @@ INSERT INTO data_supplier VALUES
 (509, 'Eni wahyu ningrum', 0838309979, 'lamongan','2024-06-020','200.000',20, '100.000','2024-01-05'),
 (510, 'Ansori', 0838309940, 'lamongan','2024-10-04','150.000',20, '100.000','2024-02-05');
 
-SELECT * FROM data_supplier;
+select * from data_supplier;
 
-INSERT INTO koreksi_stok VALUES
+insert into koreksi_stok values
 ('001', 'pepsodent',60),
 ('002', 'molto',70), 
 ('003', 'rinso',80),
@@ -106,9 +107,9 @@ INSERT INTO koreksi_stok VALUES
 ('008', 'nextar',130),
 ('009', 'roma kelapa',140),
 ('010', 'sip',150);
-SELECT * FROM koreksi_stok;
+select * from koreksi_stok;
 
-INSERT INTO penjualan VALUES
+insert into penjualan values
 (1,401,'001','pepsodent','20','2024-01-10','140.000'),
 (2,402,'002','molto','10','2024-02-11','200.000'),
 (3,403,'003','rinso','20','2024-03-12','625.000'),
@@ -120,9 +121,9 @@ INSERT INTO penjualan VALUES
 (9,409,'009','roma kelapa','20','2024-09-18','140.000'),
 (10,410,'010','sip','20','2024-10-10','140.000');
 
-SELECT * FROM penjualan;
+select * from penjualan;
 
-INSERT INTO pembelian VALUES
+insert into pembelian values
 (601,'2024-01-10',501,'001',20,'140.000'),
 (602,'2024-02-11',502,'002',10,'200.000'),
 (603,'2024-03-12',503,'003',20,'625.000'),
@@ -133,9 +134,9 @@ INSERT INTO pembelian VALUES
 (608,'2024-08-17',508,'008',20,'400.000'),
 (609,'2024-09-18',509,'009',20,'140.000'),
 (610,'2024-10-10',510,'010',20,'140.000');
-SELECT * FROM pembelian;
+select * from pembelian;
 
-INSERT INTO status_penjualan VALUES
+insert into status_penjualan values
 (401,'terjual'),
 (402,'terjual'),
 (403,'terjual'),
@@ -147,9 +148,9 @@ INSERT INTO status_penjualan VALUES
 (409,'terjual'),
 (410,'terjual');
 
-SELECT * FROM status_penjualan;
+select * from status_penjualan;
 
-INSERT INTO laporan VALUES
+insert into laporan values
 (301,'001',401,'200.000'),
 (302,'002',402,'200.000'),
 (303,'003',403,'700.000'),
@@ -162,7 +163,7 @@ INSERT INTO laporan VALUES
 (310,'010',410,'200.000');
 
 
-INSERT INTO retur_penjualan VALUES
+insert into retur_penjualan values
 (1,'2024-12-06','pepsodent','2','rusak'),
 (2,'2024-12-06','molto','4','expired'),
 (3,'2024-12-06','rinso','5','expired'),
@@ -174,6 +175,6 @@ INSERT INTO retur_penjualan VALUES
 (9,'2024-12-06','roma kelapa','1','rusak'),
 (10,'2024-12-06','sip','1','rusak');
 
-ALTER TABLE barang RENAME TO data_barang;
+alter table barang rename to data_barang;
 
-DROP DATABASE toko_Klontong;
+drop database toko_Klontong;
