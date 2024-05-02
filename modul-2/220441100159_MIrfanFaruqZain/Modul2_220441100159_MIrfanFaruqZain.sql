@@ -120,7 +120,6 @@ INSERT INTO pengembalian VALUES
 
 SELECT * FROM pengembalian;
 
-
 1
 CREATE VIEW peminjam_terbanyak AS
 SELECT peminjam.id_anggota, namee.nama_anggota FROM peminjaman peminjam
