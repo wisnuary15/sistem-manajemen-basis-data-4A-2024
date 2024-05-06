@@ -1,0 +1,34 @@
+CREATE DATABASE ruang_baca;
+USE ruang_baca;
+
+CREATE TABLE etalase_skripsi (
+id_etalase INT(10)PRIMARY KEY AUTO_INCREMENT,
+nim INT(12),
+nama_mahasiswa VARCHAR(100),
+judul_skripsi VARCHAR(100),
+dosen_pembimbing VARCHAR(100),
+dosen_penguji VARCHAR(100),
+topik VARCHAR(100)
+);
+
+INSERT INTO etalase_skripsi(nim,nama_mahasiswa,judul_skripsi,dosen_pembimbing,dosen_penguji,topik) VALUES
+(123456789,'Fairuz','pemograman bergerak','pak yusuf','pak zain','gak tau'),
+(123098756,'Abdullah','basis data','pak yusuf','pak syarief','gak tau');
+
+SELECT * FROM etalase_skripsi;
+
+CREATE TABLE daftar_pember (
+id_member INT(10)PRIMARY KEY AUTO_INCREMENT,
+nama_member VARCHAR(100),
+email VARCHAR(100),
+pasword VARCHAR(100),
+tipe_member VARCHAR(100)
+);
+
+ALTER TABLE etalase_skripsi RENAME TO skripsi_etalase;
+
+ALTER TABLE daftar_pember MODIFY COLUMN  email_member email VARCHAR(100);
+
+DROP TABLE skripsi_etalase;
+
+DROP DATABASE ruang_baca;
