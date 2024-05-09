@@ -13,7 +13,7 @@ DROP TABLE penjualan;
 CREATE TABLE buku(
 	id_buku VARCHAR(10) NOT NULL,
 	judul VARCHAR(100)NOT NULL,
-	id_penulis INT(10) NOT NULL,
+	id_penulis VARCHAR(10) NOT NULL,
 	harga INT(100) NOT NULL,
 	stok INT(100),
 	PRIMARY KEY(id_buku)
@@ -21,7 +21,7 @@ CREATE TABLE buku(
 
 CREATE TABLE penjualan(
 	id_penjualan VARCHAR(10)NOT NULL,
-	id_buku INT(10)NOT NULL,
+	id_buku VARCHAR(10)NOT NULL,
 	tanggal DATE NOT NULL,
 	jumlah INT(100)NOT NULL,
 	PRIMARY KEY(id_penjualan)
@@ -42,9 +42,12 @@ INSERT INTO buku VALUES
 	('bk06','memahami wanita','ps03',100000,30);
 
 INSERT INTO penjualan VALUES
-	('pj01','bk01',2024-05-01,10),
-	('pj02','bk02',2024-05-02,15),
-	('pj03','bk03',2024-05-03,11);
+	('pj01','bk01','2024-05-01',10),
+	('pj02','bk02','2024-05-02',15),
+	('pj03','bk03','2024-05-03',11);
+SELECT* FROM penjualan;
+	
+SELECT * FROM buku;
 -- VIEW BUKU PENULIS
 CREATE VIEW viewBukuPenulis AS
 SELECT Buku.judul AS judul_buku, Buku.harga, Buku.stok, Penulis.nama AS nama_penulis, Penulis.negara AS negara_penulis
@@ -57,6 +60,7 @@ SELECT*FROM viewBukuPenulis;
 SELECT * FROM viewBukuPenulis ORDER BY harga ASC LIMIT 5;
 
 -- TAMBAH PENJUALAN
+DROP tambahPenjualan;
 DELIMITER //
 CREATE PROCEDURE tambahPenjualan(IN buku_id INT, IN tanggal_penjualan DATE, IN jumlah_penjualan INT, OUT hasil VARCHAR(255))
 BEGIN
@@ -72,10 +76,10 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL tambahPenjualan(1, '2024-05-10', 10, @hasil);
+CALL tambahPenjualan('bk01' ,'2024-05-10', 10, @hasil);
 SELECT @hasil;
 
-CALL tambahPenjualan(999, '2024-05-10', 10, @hasil);
+CALL tambahPenjualan('bk02' ,'2024-05-10', 10, @hasil);
 SELECT @hasil;
 
 -- VIEW PENJUALAN TERBANYAK
@@ -108,7 +112,7 @@ BEGIN
     SELECT COUNT(*) INTO buku_count FROM Buku WHERE judul = judul_buku;
     
     IF buku_count = 0 THEN
-        INSERT INTO Buku (id_buku,judul, id_penulis, harga, stok) VALUES (id_buku,judul_buku, id_penulis, harga, stok);
+        INSERT INTO Buku (id_buku,judul, id_penulis, harga, stok) VALUES (buku_id,judul_buku, id_penulis, harga, stok);
         SET hasil = 'Buku berhasil ditambahkan ke dalam sistem';
     ELSE
         SET hasil = 'Buku sudah ada dalam database. Penambahan gagal dilakukan!';
@@ -119,7 +123,22 @@ DELIMITER ;
 
 CALL insertToBuku('bk07','budaya', 'ps04', 50000, 50, @hasil);
 SELECT @hasil;
-SELECT*FROM Buku;
 
+SELECT * FROM buku;
+
+DELIMITER//
+CREATE PROCEDURE insertTobook
+( 	IN buku_id VARCHAR(10),
+	IN judul_buku VARCHAR(100),
+	IN penulis_id VARCHAR(10),
+	IN hargaa INT(100),
+	IN stokk INT(100)
+)
+BEGIN
+	INSERT INTO buku
+	VALUES (buku_id,judul_buku,penulis_id,hargaa,stokk);
+END//
+DELIMITER ;
+CALL insertTobook('bk07','budaya', 'ps04', 50000, 50);
 
 
