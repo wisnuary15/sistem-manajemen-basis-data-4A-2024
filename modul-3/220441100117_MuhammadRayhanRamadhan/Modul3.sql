@@ -50,11 +50,11 @@ ALTER TABLE perpustakaan.pengembalian ADD CONSTRAINT fk_kd_buku FOREIGN KEY (kod
 
 CREATE TABLE buku(
 kode_buku INT (3) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-judul_buku varchar (20) NOT NULL,
+judul_buku VARCHAR (20) NOT NULL,
 pengarang_buku VARCHAR (20) NOT NULL,
 penerbit_buku VARCHAR (20) NOT NULL,
-tahun_buku int (4) not null,
-jumlah_buku int (5) not null,
+tahun_buku INT (4) NOT NULL,
+jumlah_buku INT (5) NOT NULL,
 status_buku VARCHAR (10) NOT NULL,
 klasifikasi_buku VARCHAR (20) NOT NULL
 );
@@ -92,7 +92,7 @@ INSERT INTO peminjaman (id_anggota,id_petugas, kode_buku, tgl_pinjam, tgl_kembal
 (4,1,6,'2022-10-05','2022-10-13'),
 (4,1,6,'2022-10-05','2022-10-13');
 
-DROP TABLE peminjaman;
+
 
 INSERT INTO pengembalian (id_anggota,id_petugas,tgl_pinjam,tgl_kembali,kode_buku,denah) VALUES
 (1,1,'2022-10-05','2022-10-09',1,'rak 1'),
@@ -100,19 +100,72 @@ INSERT INTO pengembalian (id_anggota,id_petugas,tgl_pinjam,tgl_kembali,kode_buku
 (3,2,'2022-10-05','2022-10-12',3,'rak 2'),
 (4,2,'2022-10-05','2022-10-13',4,'rak 3');
 
-CREATE VIEW vw_anggota_peminjam_terbanyak 
-AS SELECT a.id_anggota, b.nama_anggota, COUNT(*)AS jml_pinjam 
-FROM anggota b JOIN peminjaman a ON b.id_anggota = a.id_anggota
-GROUP BY a.id_anggota, b.nama_anggota HAVING COUNT(*)>5;
 
-CREATE VIEW vw_petugas AS SELECT c.id_petugas, c.nama, d.tgl_pinjam, 
-COUNT(*)AS jml_transaksi FROM petugas c JOIN peminjaman d ON c.id_petugas = d.id_petugas
-GROUP BY c.id_petugas, c.nama;
 
-CREATE VIEW vw_transaksi_banyak AS SELECT e.id_petugas, e.nama, COUNT(f.kode_peminjaman)AS
-jml_transaksi FROM petugas e INNER JOIN`peminjaman` peminjaman f ON e.id_petugas = f.id_petugas 
-GROUP BY e.id_petugas, e.nama ORDER BY jml_transaksi DESC LIMIT 1;
+-- Praktikum3
 
-CREATE VIEW vw_buku_dipinjam_banyak AS SELECT g.kode_buku, g.judul_buku, COUNT(h.kode_peminjaman)AS
-jml_pinjam FROM buku g INNER JOIN peminjaman h ON g.kode_buku = h.kode_buku 
-GROUP BY g.kode_buku, g.judul_buku ORDER BY jml_pinjam DESC LIMIT 1;
+-- soal2
+DELIMITER //
+CREATE PROCEDURE getPtgs(IN nama_ptgs VARCHAR (25))
+BEGIN
+SELECT * FROM petugas WHERE nama = nama_ptgs;
+END //
+DELIMITER ;
+CALL getPtgs('Handoyok');
+
+-- soal3
+DELIMITER //
+CREATE PROCEDURE getAgt(
+IN nama_Agt VARCHAR (15),
+IN angkatan_Agt INT (5)
+)
+BEGIN
+SELECT * FROM anggota WHERE nama_anggota = nama_Agt AND angkatan_anggota = angkatan_Agt;
+END //
+DELIMITER ;
+CALL getAgt('Hamzah', 2022);
+
+DROP PROCEDURE insertToptgs;
+
+-- Soal4
+DELIMITER //
+CREATE PROCEDURE getbk(
+IN judul_bk VARCHAR (20),
+IN pengarang_bk VARCHAR (20),
+IN penerbit_bk VARCHAR (20)
+)
+BEGIN
+SELECT * FROM buku WHERE judul_buku = judul_bk AND pengarang_buku = pengarang_bk AND penerbit_buku = penerbit_bk;
+END //
+DELIMITER ;
+CALL getbk('sutasuma', 'rendy', 'gramedia');
+
+-- Soal5
+DELIMITER //
+CREATE PROCEDURE insertToptgs(
+    id_ptgs INT(3),
+    username_ptgs VARCHAR(15),
+    passwod_ptgs VARCHAR(15),
+    nama_ptgs VARCHAR(25)
+) 
+BEGIN
+    INSERT INTO petugas
+    VALUES (id_ptgs, username_ptgs, passwod_ptgs, nama_ptgs);
+END //
+DELIMITER ;
+
+CALL insertToptgs(NULL, 'Rojali1', 'kucing3', 'Rojali');
+SELECT*FROM petugas;
+
+-- Soal6
+DELIMITER //
+CREATE PROCEDURE banyakBk(
+	OUT banyakBukuPerpus INT
+)
+BEGIN
+	SELECT COUNT(*) INTO banyakBukuPerpus FROM buku;
+END //
+DELIMITER ;
+
+CALL banyakBk(@banyakBukuPerpus);
+SELECT @banyakBukuPerpus;
