@@ -22,3 +22,5 @@ Tata cara mengumpulkan tugas (buat yang males baca, ini versi video: https://you
 17. Kalau ada tulisan "This branch is 1 commit ahead of WargaLab-Information-Systems/sistem-manajemen-basis-data-4A-2024:main", berarti commit yang kalian buat sudah berhasil, setelah itu klik tombol Contribute di bawah tulisan tersebut
 18. Lalu klik tombol Open Pull Request, akan diarahkan ke halaman baru dan biarkan settingan yang sudah ada, langsung saja klik Create Pull Request, tunggu sebentar dan scroll ke bawah lagi lalu klik Create Pull Request lagi (jadi ada 2 tombol Create Pull Request yang diklik)
 19. Jika sudah ada bacaan "Open" di halaman baru, berarti pull request sudah berhasil dilakukan dan tinggal konfirmasi ke asisten praktikum kalau sudah melakukan pull request, nantinya asisten praktikum akan mengecek pull request dan menerima hasil pull request
+
+
