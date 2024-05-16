@@ -102,27 +102,41 @@ BEGIN
     
     WHILE i <= batas DO
         SET i = i + 1;
-	SELECT * FROM peminjama;
+	SELECT * FROM peminjaman;
     END WHILE;
 
 END //
 DELIMITER ;
 
-CALL CetakDataPeminjaman(10);
+CALL soal4(10);
 
 DROP PROCEDURE IF EXISTS soal4;
 
 /*soal5*/
-DROP PROCEDURE jenkel;
-
 DELIMITER //
+CREATE PROCEDURE soal5 (
+    IN jenis_kel VARCHAR(20)
+)
+BEGIN 
+    IF jenis_kel = 'Laki-Laki' THEN 
 
-CREATE PROCEDURE jenkel()
-	BEGIN
-	    DELETE FROM anggota WHERE Jenis_Kelamin = 'Laki laki' AND IdAnggota NOT IN (SELECT IdAnggota FROM peminjaman);
-	END//
+        DELETE FROM peminjaman 
+        WHERE id_anggota IN (
+            SELECT id_anggota FROM anggota 
+            WHERE jenis_kelamin = 'Laki-Laki' AND status_pinjam != 'pinjam'
+        );
+
+        DELETE FROM pengembalian 
+        WHERE id_anggota IN (
+            SELECT id_anggota FROM anggota 
+            WHERE jenis_kelamin = 'Laki-Laki' AND status_pinjam != 'pinjam'
+        );
+
+        DELETE FROM anggota
+        WHERE jenis_kelamin = 'Laki-Laki' AND status_pinjam != 'pinjam';
+    END IF;
+END //
 DELIMITER ;
 
-
-SELECT * FROM anggota;
-CALL jenkel();
+CALL hapusjeniskelamin('Laki-Laki');
+SELECT*FROM anggota;
