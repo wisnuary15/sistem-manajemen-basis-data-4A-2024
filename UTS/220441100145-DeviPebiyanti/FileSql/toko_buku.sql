@@ -82,6 +82,7 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+CALL tambahPenjualan(1, '2024-05-01', 23);
 
 
 /////NOMOR 6/////
