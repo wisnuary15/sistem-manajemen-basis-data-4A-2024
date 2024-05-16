@@ -50,13 +50,13 @@ CALL DataMhs(220441100145, "Devi Pebiyanti", "2004-03-13", "Tuban", "08386383393
 DELIMITER //
 CREATE PROCEDURE pengingatpinjam()
 BEGIN 
-	SELECT kode_peminjaman, id_anggota, kode_buku, tgl_pinjam, tgl_kembali, CONCAT(DATEDIFF(CURDATE(), tgl_pinjam), 'hari') AS "waktu_pinjam",
+	SELECT kode_peminjaman, id_anggota, kode_buku, tgl_pinjam, tgl_kembali, CONCAT(DATEDIFF(tgl_kembali, tgl_pinjam), 'hari') AS "waktu_pinjam",
 	CASE 
-		WHEN DATEDIFF(CURDATE(), tgl_pinjam) <= 2 THEN "silahkan pergunakan buku dengan baik"
+		WHEN DATEDIFF(tgl_kembali, tgl_pinjam) <= 2 THEN "silahkan pergunakan buku dengan baik"
 		
-		WHEN DATEDIFF(CURDATE(), tgl_pinjam) BETWEEN 3 AND 5 THEN "ingat! waktu pinjam segera habis"
+		WHEN DATEDIFF(tgl_kembali, tgl_pinjam) BETWEEN 3 AND 5 THEN "ingat! waktu pinjam segera habis"
 		
-		WHEN DATEDIFF(CURDATE(), tgl_pinjam) >= 6 THEN "warning! denda menanti anda"
+		WHEN DATEDIFF(tgl_kembali, tgl_pinjam) >= 6 THEN "warning! denda menanti anda"
 	END AS keterangan
 	FROM peminjaman ORDER BY tgl_pinjam ASC;
 END//
@@ -69,14 +69,18 @@ DROP PROCEDURE pengingatpinjam;
 /////NOMOR 3/////
 
 DELIMITER //
-CREATE PROCEDURE cekdendaa (
+CREATE PROCEDURE cekdenda2 (
     IN idAnggota VARCHAR(50)
 )
 BEGIN
     DECLARE keterangan VARCHAR(100);
     DECLARE jumlah_denda DECIMAL(10, 2);
 
-    SELECT SUM(denda) INTO jumlah_denda FROM pengembalian WHERE id_anggota = idAnggota;
+    SET jumlah_denda = 0;
+
+    SELECT COALESCE(SUM(denda), 0) INTO jumlah_denda 
+    FROM pengembalian 
+    WHERE id_anggota = idAnggota;
 
     IF jumlah_denda = 0 THEN
         SET keterangan = 'anda tidak memiliki denda';
@@ -84,13 +88,12 @@ BEGIN
         SET keterangan = 'anda memiliki denda';
     END IF;
 
-    SELECT idAnggota, jumlah_denda, keterangan;
+    SELECT idAnggota AS id_anggota, jumlah_denda, keterangan;
 
 END//
 DELIMITER ;
 
-CALL cekdendaa(7);
-DROP PROCEDURE cekdendaa;
+CALL cekdenda2(7);
 
 
 
