@@ -102,7 +102,7 @@ BEGIN
     
     WHILE i <= batas DO
         SET i = i + 1;
-	SELECT * FROM peminjaman WHERE Kode_Peminjaman <= batas ORDER BY Kode_Peminjaman ASC;
+	SELECT * FROM peminjama;
     END WHILE;
 
 END //
