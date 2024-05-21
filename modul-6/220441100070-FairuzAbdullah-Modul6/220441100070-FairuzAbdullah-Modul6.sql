@@ -177,58 +177,39 @@ BEGIN
 END//
 DELIMITER//
 
-CALL Pengingat ('2024-04-01');
+CALL Pengingat ('2024-05-01');
 
-DELIMITER//
-CREATE PROCEDURE PengingatDenda(
-	IN tanggalPinjam DATE
-)
-BEGIN
-	DECLARE keterangan VARCHAR(100);
-	DECLARE selisih INT;
-	
-	SET selisih = DATEDIFF(CURDATE(), tanggalPinjam);
-	CASE 
-	WHEN selisih <= 2 THEN 
-		SET keterangan = "Silahkan pergunakan buku dengan baik";
-	WHEN selisih BETWEEN 3 AND 5 THEN
-		SET keterangan = "Ingat!, Waktu pinjam segera habis";
-	WHEN selisih >= 6 THEN
-		SET keterangan = 'Warning!!!, Denda Menanti Anda';
-    END CASE;
-    
-    SELECT keterangan AS Keterangan_Pengingat;
-END//
-DELIMITER//
 
-CALL PengingatDenda ('2024-04-01');
 
 
 /Contoh Soal 2/
 DELIMITER//
-CREATE PROCEDURE Pengingat1(
-	IN tanggalPinjam DATE
+CREATE PROCEDURE waktupinjam(
+	IN kode VARCHAR (10) 
 )
 BEGIN
 	DECLARE keterangan VARCHAR(100);
 	DECLARE selisih INT;
+	DECLARE tanggal DATE;
 	
-	SET selisih = DATEDIFF(CURDATE(), tanggalPinjam);
-	IF selisih <= 2 THEN 
-		SET keterangan = "Silahkan pergunakan buku dengan baik";
-	ELSEIF selisih <=3 THEN
-		SET keterangan = "Ingat!, Waktu pinjam segera habis";
-	ELSEIF selisih >=5 THEN
-		SET keterangan = "Ingat!, Waktu pinjam segera habis";
-	ELSE
-		SET keterangan = 'Warning!!!, Denda Menanti Anda';
-    END IF;
-    
-    SELECT keterangan AS Keterangan_Pengingat;
-END//
-DELIMITER//
+	SELECT tanggal_pinjam INTO tanggal FROM peminjaman WHERE kode_peminjaman = kode;
+	
+	SET selisih = DATEDIFF( CURDATE(), tanggal);
+	
+	CASE
+		WHEN selisih <= 2 THEN SET keterangan ='Silahkan pergunakan buku dengan baik';
+		WHEN selisih >= 3 AND selisih <6 THEN SET keterangan = 'Ingat!,Waktu anda segera habis';
+		WHEN selisih >= 6 THEN SET keterangan = 'warning!!!, denda menanti anda';
+	END CASE;
+	
+	SELECT keterangan;
 
-CALL Pengingat1 ('2024-04-01');
+END//
+DELIMITER;
+
+CALL waktupinjam('PM001');
+
+
 /Nomor 3/
 DELIMITER //
 
