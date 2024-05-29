@@ -1,3 +1,5 @@
+, No_Telp, Jenis_Kelamin, Status_Pinjam) VALUES
+('A016', 'bangkocak', '2018', 'Tangerang', '1994-01-04', 08667890123, 'Laki laki', 'Meminjam');
 /*soal1*/
 DELIMITER //
 CREATE PROCEDURE soal1(
@@ -64,8 +66,6 @@ SELECT * FROM peminjaman;
 
 DROP PROCEDURE soal2;
 
-
-
 /*soal3*/
 DELIMITER //
 
@@ -85,32 +85,25 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL soal3 ('A003');
+CALL soal3 ('A002');
 SELECT * FROM pengembalian;
 
 
-DROP PROCEDURE soal3;
+DROP PROCEDURE soal4;
 
 
 
 /*soal4*/
 DELIMITER //
-CREATE PROCEDURE soal4(IN batas INT)
+CREATE PROCEDURE soal4()
 BEGIN
-    DECLARE i INT;
-    SET i = 1;
-    
-    WHILE i <= batas DO
-        SET i = i + 1;
-	SELECT * FROM peminjaman;
-    END WHILE;
+
+	SELECT * FROM anggota LIMIT 10;
 
 END //
 DELIMITER ;
 
-CALL soal4(10);
-
-DROP PROCEDURE IF EXISTS soal4;
+CALL soal4;
 
 /*soal5*/
 DELIMITER //
@@ -118,25 +111,28 @@ CREATE PROCEDURE soal5 (
     IN jenis_kel VARCHAR(20)
 )
 BEGIN 
-    IF jenis_kel = 'Laki-Laki' THEN 
+    IF jenis_kel = 'Laki laki' THEN 
 
         DELETE FROM peminjaman 
-        WHERE id_anggota IN (
-            SELECT id_anggota FROM anggota 
-            WHERE jenis_kelamin = 'Laki-Laki' AND status_pinjam != 'pinjam'
+        WHERE IdAnggota IN (
+            SELECT IdAnggota FROM anggota 
+            WHERE jenis_kelamin = 'Laki laki' AND status_pinjam != 'pinjam'
         );
 
         DELETE FROM pengembalian 
-        WHERE id_anggota IN (
-            SELECT id_anggota FROM anggota 
-            WHERE jenis_kelamin = 'Laki-Laki' AND status_pinjam != 'pinjam'
+        WHERE IdAnggota IN (
+            SELECT IdAnggota FROM anggota 
+            WHERE jenis_kelamin = 'Laki laki' AND status_pinjam != 'pinjam'
         );
 
         DELETE FROM anggota
-        WHERE jenis_kelamin = 'Laki-Laki' AND status_pinjam != 'pinjam';
+        WHERE jenis_kelamin = 'Laki laki' AND status_pinjam != 'pinjam';
     END IF;
 END //
 DELIMITER ;
 
-CALL hapusjeniskelamin('Laki-Laki');
-SELECT*FROM anggota;
+CALL soal5('Laki laki');
+SELECT * FROM anggota; 
+
+INSERT INTO anggota (IdAnggota, Nama_Anggota, Angkatan_Anggota, Tempat_Lahir_Anggota, Tanggal_Lahir_Anggota, No_Telp, Jenis_Kelamin, Status_Pinjam) VALUES
+('A016', 'bangkocak', '2018', 'Tangerang', '1994-01-04', 08667890123, 'Laki laki', 'Meminjam');
