@@ -23,3 +23,16 @@ Tata cara mengumpulkan tugas (buat yang males baca, ini versi video: https://you
 18. Lalu klik tombol Open Pull Request, akan diarahkan ke halaman baru dan biarkan settingan yang sudah ada, langsung saja klik Create Pull Request, tunggu sebentar dan scroll ke bawah lagi lalu klik Create Pull Request lagi (jadi ada 2 tombol Create Pull Request yang diklik)
 19. Jika sudah ada bacaan "Open" di halaman baru, berarti pull request sudah berhasil dilakukan dan tinggal konfirmasi ke asisten praktikum kalau sudah melakukan pull request, nantinya asisten praktikum akan mengecek pull request dan menerima hasil pull request
 
+
+penjelasan
+pertama membuat database kemudian membuat 3 tabel dan mengisi data pada 2 tabel
+
+kedua membuat view yang menggabungkan data dari tabel buku dan penulis,  menampilkan judul buku, harga, stok, nama penulis, dan negara penulis.
+
+ketiga Melakukan query pada view viewBukuPenulis
+
+keempat Membuat sebuah stored procedure bernama tambahPenjualan yang digunakan untuk menambahkan data penjualan baru ke tabel penjualan.
+
+kelima Membuat view penjualanTerbanyak yang menampilkan 5 buku dengan jumlah penjualan terbanyak
+
+ke enam Membuat sebuah stored procedure bernama insertToBuku yang digunakan untuk menambahkan buku baru ke dalam tabel buku.
