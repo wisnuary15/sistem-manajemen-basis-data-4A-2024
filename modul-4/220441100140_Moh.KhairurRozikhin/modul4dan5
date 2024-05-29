@@ -1,0 +1,337 @@
+/*soal1*/
+DELIMITER //
+CREATE PROCEDURE soal1(
+	IN nama_mhs VARCHAR(20),
+	IN nim_mhs VARCHAR(20),
+	IN alamat_mhs VARCHAR(40),
+	IN tgl_mhs DATE,
+	IN tlpn_mhs VARCHAR(20),
+	IN gender_mhs VARCHAR(20),
+	IN hobi_mhs VARCHAR(20),
+	IN umur_mhs INT
+)
+BEGIN
+	DECLARE NIM VARCHAR(20);
+	DECLARE Nama VARCHAR(20);
+	DECLARE Alamat VARCHAR(40);
+	DECLARE TTL DATE;
+	DECLARE Telepon VARCHAR(20);
+	DECLARE Jenis_Kelamin VARCHAR(20);
+	DECLARE Hobi VARCHAR(20);
+	DECLARE Umur INT;
+
+	SET NIM = nim_mhs;
+	SET Nama = nama_mhs;
+	SET Alamat = alamat_mhs;
+	SET TTL = tgl_mhs;
+	SET Telepon = tlpn_mhs;
+	SET Jenis_Kelamin = gender_mhs;
+	SET Hobi = hobi_mhs;
+	SET Umur = TIMESTAMPDIFF(YEAR, tgl_mhs, CURDATE());
+	SELECT NIM, Nama,  Alamat, Telepon, Jenis_Kelamin, Hobi, Umur;
+END //
+DELIMITER ;
+
+CALL soal1('220441100140', 'Moh.Khairur Rozikhin', 'Jl.P.Trunojoyo', '2004-05-24', '081335558136', 'Laki - Laki', '-', NULL);
+
+
+
+/*soal2*/
+DELIMITER//
+CREATE PROCEDURE soal2()
+BEGIN
+    SELECT 
+        Kode_Peminjaman, 
+        IdAnggota, 
+        Tanggal_Pinjam,
+        Tanggal_Kembali, 
+        CONCAT(DATEDIFF(CURDATE(), Tanggal_Pinjam), ' Hari') AS Lama_Pinjam,
+        CASE
+            WHEN DATEDIFF(CURDATE(), Tanggal_Pinjam) <= 2 THEN 'Silakan Pergunakan Buku dengan Baik!'
+            WHEN DATEDIFF(CURDATE(), Tanggal_Pinjam) BETWEEN 3 AND 5 THEN 'Ingat!! Waktu Pinjam Segera Habis!'
+            WHEN DATEDIFF(CURDATE(), Tanggal_Pinjam) >= 6 THEN 'Warning!!!, Denda Menanti Anda!'
+        END AS Status_Pinjam
+    FROM 
+        peminjaman 
+    ORDER BY 
+        Lama_Pinjam DESC;
+END //
+DELIMITER ;
+
+CALL soal2();
+
+SELECT * FROM peminjaman;
+
+DROP PROCEDURE soal2;
+
+/*soal3*/
+DELIMITER //
+
+CREATE PROCEDURE soal3 (IN Id_Mahasiswa VARCHAR(20))
+BEGIN
+    DECLARE pesan VARCHAR(100);
+
+    IF (SELECT SUM(Denda) FROM pengembalian WHERE IdAnggota = Id_Mahasiswa) > 0 THEN
+        SET pesan = 'Anda Memiliki Tanggungan Denda, Bayar Segera!';
+    ELSEIF (SELECT SUM(Denda) FROM pengembalian WHERE IdAnggota = Id_Mahasiswa) = 0 THEN
+        SET pesan = 'Anda Tidak Memiliki Tanggungan Denda!';
+    ELSE
+        SET pesan = "Data tidak tersedia";
+    END IF;
+
+    SELECT Id_Mahasiswa, (SELECT SUM(Denda) FROM pengembalian WHERE IdAnggota = Id_Mahasiswa) AS Tanggungan, pesan;
+END //
+DELIMITER ;
+
+CALL soal3 ('A002');
+SELECT * FROM pengembalian;
+
+
+DROP PROCEDURE soal4;
+
+
+
+/*soal4*/
+DELIMITER //
+CREATE PROCEDURE soal4()
+BEGIN
+
+	SELECT * FROM anggota LIMIT 10;
+
+END //
+DELIMITER ;
+
+CALL soal4;
+
+/*soal5*/
+DELIMITER //
+CREATE PROCEDURE soal5 (
+    IN jenis_kel VARCHAR(20)
+)
+BEGIN 
+    IF jenis_kel = 'Laki laki' THEN 
+
+        DELETE FROM peminjaman 
+        WHERE IdAnggota IN (
+            SELECT IdAnggota FROM anggota 
+            WHERE jenis_kelamin = 'Laki laki' AND status_pinjam != 'pinjam'
+        );
+
+        DELETE FROM pengembalian 
+        WHERE IdAnggota IN (
+            SELECT IdAnggota FROM anggota 
+            WHERE jenis_kelamin = 'Laki laki' AND status_pinjam != 'pinjam'
+        );
+
+        DELETE FROM anggota
+        WHERE jenis_kelamin = 'Laki laki' AND status_pinjam != 'pinjam';
+    END IF;
+END //
+DELIMITER ;
+
+CALL soal5('Laki laki');
+SELECT * FROM anggota; 
+
+INSERT INTO anggota (IdAnggota, Nama_Anggota, Angkatan_Anggota, Tempat_Lahir_Anggota, Tanggal_Lahir_Anggota, No_Telp, Jenis_Kelamin, Status_Pinjam) VALUES
+('A016', 'bangkocak', '2018', 'Tangerang', '1994-01-04', 08667890123, 'Laki laki', 'Meminjam');
+
+
+===============================================================================================================================================================
+/*soal 1*/
+DROP PROCEDURE modul4_1
+
+DELIMITER //
+CREATE PROCEDURE modul4_1 (
+    IN tanggalYangDipilih DATE,
+    INOUT hasilnya INT)
+BEGIN
+	SELECT 
+		a.Kode_Kembali,
+		CONCAT(b.IdAnggota, '-', b.Nama_Anggota) AS Nama_Anggota, 
+		a.Kode_Buku,
+		CONCAT(c.IdPetugas, '-', c.Nama) AS Nama_Petugas, 
+		a.Tgl_Pinjam, 
+		a.Tgl_Kembali,
+		a.Denda
+	FROM 
+		pengembalian a
+		JOIN anggota b ON a.IdAnggota = b.IdAnggota
+		JOIN petugas c ON a.IdPetugas = c.IdPetugas
+	WHERE a.Tgl_Kembali = tanggalYangDipilih ;
+
+    SELECT COUNT(*) INTO hasilnya
+    FROM pengembalian
+    WHERE Tgl_Kembali = tanggalYangDipilih;
+END//
+DELIMITER ;
+
+CALL modul4_1('2024-01-25', @hasilnya);
+SELECT @hasilnya;
+
+SELECT * FROM peminjaman
+
+
+/*soal 2*/
+
+
+
+DELIMITER//
+CREATE PROCEDURE modul4_2 (
+	IN anggotaKepilih VARCHAR(100),
+	OUT hasilnya INT)
+BEGIN 
+	SELECT
+		IdAnggota,
+		Nama_Anggota,
+		Angkatan_Anggota, 
+		Tempat_Lahir_Anggota, 
+		Tanggal_Lahir_Anggota, 
+		No_Telp,
+		Jenis_Kelamin, 
+		Status_Pinjam 
+	FROM anggota
+	WHERE Status_Pinjam = anggotaKepilih;
+	
+	SELECT COUNT(*) INTO hasilnya
+	FROM anggota
+	WHERE Status_Pinjam = anggotaKepilih;
+
+END//
+DELIMITER;
+
+CALL modul4_2('Meminjam', @hasilnya);
+SELECT@hasilnya
+
+/*soal3*/
+DROP PROCEDURE modul4_3
+
+DELIMITER//
+CREATE PROCEDURE modul4_3 (
+	OUT hasilnya INT)
+BEGIN 
+	SELECT 
+		Status_Pinjam 
+	FROM anggota
+	WHERE Status_Pinjam = 'Meminjam' INTO hasilnya;
+
+END//
+DELIMITER;
+
+SELECT@hasilnya
+
+/*soal 4*/
+
+DROP PROCEDURE modul4_4
+
+DELIMITER //
+CREATE PROCEDURE modul4_4 (
+	IN kodeBuku VARCHAR(100),
+	IN judulBuku VARCHAR(100),
+	IN pengarangBuku VARCHAR(100),
+	IN penerbitBuku VARCHAR(100),
+	IN tahunBuku VARCHAR(100),
+	IN jumlahBuku VARCHAR(100),
+	IN statusBuku VARCHAR(100),
+	IN klasifikasiBuku VARCHAR(200),
+	OUT pesanoutnya VARCHAR(100)
+)
+BEGIN
+	DECLARE pesan VARCHAR(100);
+	SET pesan = 'Data buku berhasil ditambahkan.';
+
+	
+	INSERT INTO buku (Kode_Buku, Judul_Buku, Pengarang_Buku, Penerbit_Buku, Tahun_Buku, Jumlah_Buku, Status_Buku, Klasifikasi_Buku)
+	VALUES (kodeBuku, judulBuku, pengarangBuku, penerbitBuku, tahunBuku, jumlahBuku, statusBuku, klasifikasiBuku);
+	
+	SET pesanoutnya = pesan;	
+
+END//
+DELIMITER ;
+
+CALL modul4_4('B017', 'Pemrograman Java', 'Rudi Hartono', 'Gramedia Pustaka', '2023', '10', 'Tersedia', 'Teknologi', @pesanoutnya);
+SELECT @pesanoutnya AS pesan;
+
+SELECT* FROM buku
+
+/*soal 5*/
+
+DROP PROCEDURE  modul4_5
+
+DELIMITER //
+CREATE PROCEDURE modul4_5 (
+    IN p_IdAnggota VARCHAR(250),
+    OUT p_Pesan VARCHAR(100)
+)
+BEGIN
+    DECLARE pesan VARCHAR(100);
+
+    IF EXISTS (SELECT * FROM peminjaman WHERE IdAnggota = p_IdAnggota AND Tanggal_Kembali IS NULL) THEN
+        SET pesan = 'Tidak dapat menghapus anggota karena masih memiliki pinjaman yang belum dikembalikan.';
+    ELSE
+	DELETE FROM peminjaman WHERE IdAnggota = p_IdAnggota;
+        DELETE FROM pengembalian WHERE IdAnggota = p_IdAnggota;
+        DELETE FROM anggota WHERE IdAnggota = p_IdAnggota;
+         
+        
+        SET pesan = 'Data anggota berhasil dihapus.';
+    END IF;
+
+    SET p_Pesan = pesan;
+END//
+DELIMITER ;
+
+
+CALL modul4_5('A002', @pesan);
+SELECT @pesan AS Pesan;
+
+SELECT * FROM anggota
+
+/*soal6*/
+
+CREATE VIEW inner_join AS
+SELECT 
+    buku.Judul_Buku,
+    anggota.Nama_Anggota,
+    peminjaman.Tanggal_Pinjam,
+    peminjaman.Tanggal_Kembali
+FROM 
+    peminjaman
+INNER JOIN 
+    buku ON peminjaman.Kode_Buku = buku.Kode_Buku
+INNER JOIN 
+    anggota ON peminjaman.IdAnggota = anggota.IdAnggota;
+
+
+SELECT * FROM inner_join;
+
+========
+CREATE VIEW left_join AS
+SELECT 
+    anggota.Nama_Anggota,
+    buku.Judul_Buku,
+    peminjaman.Tanggal_Pinjam,
+    peminjaman.Tanggal_Kembali
+FROM 
+    anggota
+LEFT JOIN 
+    peminjaman ON anggota.IdAnggota = peminjaman.IdAnggota
+LEFT JOIN 
+    buku ON peminjaman.Kode_Buku = buku.Kode_Buku;
+
+SELECT * FROM left_join;
+
+============
+CREATE VIEW right_join AS
+SELECT 
+    buku.Judul_Buku,
+    anggota.Nama_Anggota,
+    peminjaman.Tanggal_Pinjam,
+    peminjaman.Tanggal_Kembali
+FROM 
+    buku
+RIGHT JOIN 
+    peminjaman ON buku.Kode_Buku = peminjaman.Kode_Buku
+RIGHT JOIN 
+    anggota ON peminjaman.IdAnggota = anggota.IdAnggota;
+
+SELECT * FROM right_join;
