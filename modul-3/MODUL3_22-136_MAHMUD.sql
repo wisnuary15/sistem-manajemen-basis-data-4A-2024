@@ -42,6 +42,7 @@ FOREIGN KEY (IdPetugas) REFERENCES petugas(IdPetugas),
 FOREIGN KEY (IdAnggota) REFERENCES anggota(IdAnggota),
 FOREIGN KEY (Kode_Buku) REFERENCES buku(Kode_Buku));
 
+DROP TABLE pengembalian;
 CREATE TABLE pengembalian(
 Kode_Kembali VARCHAR(10) NOT NULL,
 idAnggota VARCHAR(10) NOT NULL,
@@ -51,7 +52,7 @@ Tanggal_Pinjam DATE NOT NULL,
 Tanggal_Kembali DATE NOT NULL,
 Denda VARCHAR(15),
 PRIMARY KEY (Kode_Kembali),
-FOREIGN KEY (IdAnggota) REFERENCES anggota(idAnggota),
+FOREIGN KEY (IdAnggota) REFERENCES anggota(IdAnggota),
 FOREIGN KEY (IdPetugas) REFERENCES petugas(IdPetugas),
 FOREIGN KEY (Kode_Buku) REFERENCES buku(Kode_Buku));
 
